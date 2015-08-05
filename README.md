@@ -26,8 +26,8 @@ class Parent extends React.Component {
 
 ### Props
 
-| Prop | Type | |
-|------|------|-|
+| Prop | Type | Description |
+|------|------|-------------|
 | **anchor** | DOM node | The modal will stick to the the bottom of this element. Defaults to the modal's parent element.
 | **required** | Boolean | If true, the modal cannot be dismissed with the escape key or by clicking somewhere else. Defaults to `false`.
 | **onSubmit** | Function | Call this when the form is submitted.
