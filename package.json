@@ -1,0 +1,14 @@
+{
+  "name": "modal-form",
+  "version": "0.0.1",
+  "devDependencies": {
+    "react": "~0.13.3",
+    "simulant": "~0.1.5",
+    "tape": "~4.0.2",
+    "zuul": "~3.2.0"
+  },
+  "scripts": {
+    "sauce": "zuul ./test.js",
+    "test": "zuul --local 7357 ./test.js"
+  }
+}
