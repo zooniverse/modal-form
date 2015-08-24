@@ -30,7 +30,9 @@
     propTypes: {
       anchor: React.PropTypes.instanceOf(Element),
       required: React.PropTypes.bool,
-      side: React.PropTypes.oneOf(['bottom']), // TODO: Enable top, left, right, center.
+      side: React.PropTypes.oneOf([
+        'bottom'
+      ]), // TODO: Enable top, left, right, center.
       underlayStyle: React.PropTypes.object,
       pointerStyle: React.PropTypes.object,
       onSubmit: React.PropTypes.func,
