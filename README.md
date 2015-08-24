@@ -24,6 +24,8 @@ class Parent extends React.Component {
 }
 ```
 
+An **AnchoredModalForm** (`import ModalForm from 'modal-form/anchored'`) can be attached where a normal form isn't allowed, for example within SVG elements or other forms. The form itself will be rendered in a new `React.render()` context.
+
 ### Props
 
 | Prop | Type | Description |
