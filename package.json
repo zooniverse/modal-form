@@ -9,6 +9,6 @@
   },
   "scripts": {
     "sauce": "zuul ./test.js",
-    "test": "zuul --local 7357 ./test.js"
+    "test": "zuul --local 7357 ./test/index.js"
   }
 }

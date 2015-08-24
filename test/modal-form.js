@@ -1,13 +1,13 @@
 var test = require('tape');
 var React = require('react/addons');
 var TestUtils = React.addons.TestUtils;
-var ModalForm = require('./index');
+var ModalForm = require('../index');
 var simulant = window.simulant = require('simulant');
 
 test('ModalForm', function(t) {
   t.test('is exported', function(t) {
     t.plan(1);
-    t.notEqual(ModalForm, undefined, 'Exported');
+    t.equal(typeof ModalForm, 'function', 'Exported the constructor');
   });
 
   t.test('can be created', function(t) {
