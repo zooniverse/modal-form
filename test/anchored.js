@@ -16,7 +16,7 @@ test('AnchoredModalForm', function(t) {
     t.end();
   });
 
-  test('An instance', function(t) {
+  t.test('An instance', function(t) {
     var ANCHORED_CONTENT_ID = 'anchored-content';
 
     var root = document.createElement('div');
@@ -37,6 +37,7 @@ test('AnchoredModalForm', function(t) {
 
     t.ok(document.querySelector('#' + ANCHORED_CONTENT_ID), 'Anchored content has been rendered');
     t.notOk(root.querySelector('#' + ANCHORED_CONTENT_ID), 'Anchored content is not in the original rendering root');
-    t.end()
+    t.end();
   });
+  t.end();
 });
