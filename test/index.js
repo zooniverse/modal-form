@@ -3,3 +3,4 @@ if (Object.assign === undefined) {
 }
 require('./modal-form');
 require('./anchored');
+require('./triggered');
