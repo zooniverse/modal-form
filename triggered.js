@@ -31,6 +31,8 @@
         triggerClassName: null,
         trigger: '☰',
         onClick: Function.prototype,
+        onSubmit: Function.prototype,
+        onCancel: Function.prototype,
         // Probably never change these:
         tag: 'button',
         type: 'button',
