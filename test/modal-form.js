@@ -2,7 +2,7 @@ var test = require('tape');
 var React = require('react/addons');
 var TestUtils = React.addons.TestUtils;
 var ModalForm = require('../index');
-var simulant = window.simulant = require('simulant');
+var simulant = require('simulant');
 
 test('ModalForm', function(t) {
   t.test('is exported', function(t) {
@@ -17,24 +17,29 @@ test('ModalForm', function(t) {
   });
 
   t.test('can get a bounding rectangle including margin', function(t) {
-    var element = document.createElement('div');
-    element.style.width = '10px';
-    element.style.height = '10px';
-    element.style.margin = '10px';
-    document.body.appendChild(element);
+    var rectElement = document.createElement('div');
+    rectElement.id = 'rect-element';
+    rectElement.style.width = '10px';
+    rectElement.style.height = '10px';
+    rectElement.style.margin = '10px';
+    document.body.appendChild(rectElement);
 
-    var rect = ModalForm.prototype.getRect(element);
+    var rect = ModalForm.prototype.getRect(rectElement);
     t.plan(2);
     t.equal(rect.width, 30, 'Correct rect width');
     t.equal(rect.height, 30, 'Correct rect height');
+
+    rectElement.parentElement.removeChild(rectElement);
   });
 });
 
 test('An instance', function(t) {
   var container = document.createElement('div');
+  container.id = 'modal-form-container';
   document.body.appendChild(container);
 
   var anchor = document.createElement('div');
+  anchor.id = 'modal-form-anchor';
   anchor.style.width = '100px';
   anchor.style.height = '100px';
   anchor.style.position = 'absolute';
@@ -91,5 +96,12 @@ test('An instance', function(t) {
     TestUtils.Simulate.click(underlay);
     t.plan(1);
     t.equal(cancellations, 2, 'onCancel called');
+  });
+
+  t.test('clean up', function() {
+    React.unmountComponentAtNode(container);
+    anchor.parentElement.removeChild(anchor);
+    container.parentElement.removeChild(container);
+    t.end();
   });
 });
