@@ -35,6 +35,7 @@
       ]), // TODO: Enable top, left, right, center.
       underlayStyle: React.PropTypes.object,
       pointerStyle: React.PropTypes.object,
+      persistAcrossLocations: React.PropTypes.bool,
       onSubmit: React.PropTypes.func,
       onCancel: React.PropTypes.func
     },
@@ -46,6 +47,7 @@
         side: 'bottom',
         underlayStyle: {},
         pointerStyle: {},
+        persistAcrossLocations: false,
         onSubmit: Function.prototype,
         onCancel: Function.prototype
       };
@@ -59,6 +61,7 @@
         img.addEventListener('load', this.reposition);
       }, this);
       addEventListener('keydown', this.handleGlobalKeyDown);
+      addEventListener('hashchange', this.handleNavigation);
     },
 
     componentWillUnmount: function() {
@@ -68,6 +71,7 @@
         img.removeEventListener('load', this.reposition);
       }, this);
       removeEventListener('keydown', this.handleGlobalKeyDown);
+      removeEventListener('hashchange', this.handleNavigation);
     },
 
     reposition: function() {
@@ -118,6 +122,12 @@
 
     handleGlobalKeyDown: function (event) {
       if (event.which === this.ESC_KEY && !this.props.required) {
+        this.props.onCancel.apply(null, arguments);
+      }
+    },
+
+    handleNavigation: function() {
+      if (!this.props.required && !this.props.persistAcrossLocations) {
         this.props.onCancel.apply(null, arguments);
       }
     },
