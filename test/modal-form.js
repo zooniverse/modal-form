@@ -98,6 +98,12 @@ test('An instance', function(t) {
     t.equal(cancellations, 2, 'onCancel called');
   });
 
+  t.test('calls its onCancel prop when changing the hash', function(t) {
+    simulant.fire(window, 'hashchange');
+    t.plan(1);
+    t.equal(cancellations, 3, 'onCancel called');
+  });
+
   t.test('clean up', function() {
     React.unmountComponentAtNode(container);
     anchor.parentElement.removeChild(anchor);
