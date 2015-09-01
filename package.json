@@ -1,6 +1,6 @@
 {
   "name": "modal-form",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "devDependencies": {
     "object-assign": "~4.0.1",
     "react": "~0.13.3",
