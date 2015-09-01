@@ -1,8 +1,6 @@
 var test = require('tape');
 var React = require('react/addons');
-// var TestUtils = React.addons.TestUtils;
 var AnchoredModalForm = require('../anchored');
-// var simulant = window.simulant = require('simulant');
 
 test('AnchoredModalForm', function(t) {
   t.test('is exported', function(t) {
@@ -20,6 +18,7 @@ test('AnchoredModalForm', function(t) {
     var ANCHORED_CONTENT_ID = 'anchored-content';
 
     var root = document.createElement('div');
+    root.id = 'anchored-root';
     document.body.appendChild(root);
 
     // Note, the anchored content is a <p>,
@@ -38,6 +37,13 @@ test('AnchoredModalForm', function(t) {
     t.ok(document.querySelector('#' + ANCHORED_CONTENT_ID), 'Anchored content has been rendered');
     t.notOk(root.querySelector('#' + ANCHORED_CONTENT_ID), 'Anchored content is not in the original rendering root');
     t.end();
+
+    t.test('clean up', function() {
+      React.unmountComponentAtNode(root);
+      root.parentElement.removeChild(root);
+      t.end();
+    });
   });
+
   t.end();
 });

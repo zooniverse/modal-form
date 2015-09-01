@@ -125,13 +125,13 @@
     render: function() {
       var pointer = React.createElement('div', {
         ref: 'pointer',
-        className: 'dropdown-form-pointer',
+        className: ('modal-form-pointer ' + (this.props.className || '')).trim(),
         style: Object.assign({}, this.POINTER_STYLE, this.props.pointerStyle)
       });
 
       var form = React.createElement('form', {
         ref: 'form',
-        className: 'dropdown-form',
+        className: ('modal-form ' + (this.props.className || '')).trim(),
         style: Object.assign({}, this.FORM_STYLE, this.props.style),
         action: 'POST',
         onSubmit: this.handleSubmit
@@ -139,7 +139,7 @@
 
       return React.createElement('div', {
         ref: 'underlay',
-        className: 'dropdown-form-underlay',
+        className: ('modal-form-underlay ' + (this.props.className || '')).trim(),
         style: Object.assign({}, this.UNDERLAY_STYLE, this.props.underlayStyle),
         onClick: this.handleUnderlayClick
       }, pointer, form);
