@@ -6,14 +6,14 @@ var simulant = require('simulant');
 
 test('ModalForm', function(t) {
   t.test('is exported', function(t) {
-    t.plan(1);
     t.equal(typeof ModalForm, 'function', 'Exported the constructor');
+    t.end();
   });
 
   t.test('can be created', function(t) {
     var instance = React.createElement(ModalForm);
-    t.plan(1);
     t.ok(instance, 'Instance created');
+    t.end();
   });
 
   t.test('can get a bounding rectangle including margin', function(t) {
@@ -25,11 +25,11 @@ test('ModalForm', function(t) {
     document.body.appendChild(rectElement);
 
     var rect = ModalForm.prototype.getRect(rectElement);
-    t.plan(2);
     t.equal(rect.width, 30, 'Correct rect width');
     t.equal(rect.height, 30, 'Correct rect height');
 
     rectElement.parentElement.removeChild(rectElement);
+    t.end();
   });
 });
 
@@ -71,37 +71,37 @@ test('An instance', function(t) {
     var formTop = form.offsetTop;
     var anchorCenter = anchor.offsetLeft + (anchor.offsetWidth / 2);
     var anchorBottom = anchor.offsetTop + anchor.offsetHeight;
-    t.plan(2);
     t.equal(formCenter, anchorCenter, 'Lines up with its anchor horizontally');
     t.ok(formTop >= anchorBottom, 'Sits below its anchor');
+    t.end();
   });
 
   t.test('calls its onSubmit prop on form submission', function(t) {
     var form = React.findDOMNode(modal.refs.form);
     TestUtils.Simulate.submit(form);
-    t.plan(1);
     t.equal(submissions, 1, 'onSubmit called');
+    t.end();
   });
 
   t.test('calls its onCancel prop on ESC', function(t) {
     simulant.fire(window, 'keydown', {
       which: modal.ESC_KEY
     });
-    t.plan(1);
     t.equal(cancellations, 1, 'onCancel called');
+    t.end();
   });
 
   t.test('calls its onCancel prop on clicking the underlay', function(t) {
     var underlay = React.findDOMNode(modal.refs.underlay);
     TestUtils.Simulate.click(underlay);
-    t.plan(1);
     t.equal(cancellations, 2, 'onCancel called');
+    t.end();
   });
 
   t.test('calls its onCancel prop when changing the hash', function(t) {
     simulant.fire(window, 'hashchange');
-    t.plan(1);
     t.equal(cancellations, 3, 'onCancel called');
+    t.end();
   });
 
   t.test('clean up', function() {
