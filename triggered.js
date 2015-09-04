@@ -12,31 +12,30 @@
     AnchoredModalForm = window.ZUIAnchoredModalForm;
   }
 
-  var MODAL_FORM_PROPS = Object.keys(ModalForm.defaultProps);
+  var TRIGGER_PROPS = []; // Known after the class is created.
 
   var TriggeredModalForm = React.createClass({
     displayName: 'TriggeredModalForm',
 
     propTypes: {
+      triggerTag: React.PropTypes.string,
       trigger: React.PropTypes.oneOfType([
         React.PropTypes.element,
         React.PropTypes.string
       ]),
-      triggerClassName: React.PropTypes.string,
-      onClick: React.PropTypes.func
+      triggerProps: React.PropTypes.object,
+      onSubmit: React.PropTypes.func,
+      onCancel: React.PropTypes.func
     },
 
     getDefaultProps: function() {
       return {
-        triggerClassName: null,
+        triggerTag: 'button',
         trigger: '☰',
-        onClick: Function.prototype,
-        onSubmit: Function.prototype,
-        onCancel: Function.prototype,
-        // Probably never change these:
-        tag: 'button',
-        type: 'button',
-        defaultOpen: false
+        triggerProps: {},
+        defaultOpen: false,
+        onSubmit: null,
+        onCancel: null
       };
     },
 
@@ -55,55 +54,62 @@
     close: function() {
       this.setState({
         open: false
+      }, function() {
+        this.getDOMNode().focus()
       });
     },
 
     render: function() {
       var modal = null;
       if (this.state.open) {
-        var modalProps = {};
+        var modalProps = {
+          onSubmit: this.handleSubmit,
+          onCancel: this.handleCancel
+        };
         Object.keys(this.props).forEach(function(propName) {
-          if (MODAL_FORM_PROPS.indexOf(propName) !== -1) {
+          if (TRIGGER_PROPS.indexOf(propName) === -1) {
             modalProps[propName] = this.props[propName];
           }
         }, this);
-        modalProps.className = this.props.className;
-        modalProps.onSubmit = this.handleSubmit;
-        modalProps.onCancel = this.handleCancel;
 
         modal = React.createElement(AnchoredModalForm, modalProps, this.props.children);
       }
 
-      var triggerProps = {}
-      Object.keys(this.props).forEach(function(propName) {
-        if (MODAL_FORM_PROPS.indexOf(propName) === -1) {
-          triggerProps[propName] = this.props[propName];
-        }
-      }, this);
-      triggerProps.className = [
-        'modal-form-trigger',
-        this.props.triggerClassName,
-        this.props.className
-      ].join(' ').trim();
-      triggerProps['data-active'] = this.state.open || null;
-      triggerProps.onClick = this.handleClick;
+      var triggerProps = Object.assign({}, {
+        type: this.props.triggerTag === 'button' ? 'button' : null,
+        'aria-haspopup': true,
+        'aria-expanded': this.state.open
+      }, this.props.triggerProps, {
+        className: [
+          'modal-form-trigger',
+          this.props.className || '',
+          this.props.triggerProps && this.props.triggerProps.className || ''
+        ].join(' ').trim(),
+        onClick: this.handleClick
+      });
 
-      return React.createElement(this.props.tag, triggerProps, this.props.trigger, modal);
+      return React.createElement(this.props.triggerTag, triggerProps, this.props.trigger, modal);
     },
 
     handleClick: function() {
       this.open();
-      this.props.onClick();
+      if (this.props.triggerProps && this.props.triggerProps.onClick) {
+        this.props.triggerProps.onClick.apply(null, arguments);
+      }
     },
 
     handleSubmit: function() {
       this.close();
-      this.props.onSubmit.apply(null, arguments);
+      if (this.props.onSubmit) {
+        this.props.onSubmit.apply(null, arguments);
+      }
     },
 
     handleCancel: function() {
       this.close();
-      this.props.onCancel.apply(null, arguments);
+      if (this.props.onCancel) {
+        this.props.onCancel.apply(null, arguments);
+      }
     },
   });
 
@@ -112,4 +118,6 @@
   } else if (typeof window !== 'undefined') {
     window.ZUITriggeredModalForm = TriggeredModalForm;
   }
+
+  TRIGGER_PROPS.push.apply(TRIGGER_PROPS, Object.keys(TriggeredModalForm.propTypes));
 }());
