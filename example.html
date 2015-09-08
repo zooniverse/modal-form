@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>ModalForm demo</title>
+    <style>
+      button {
+        cursor: pointer;
+      }
+
+      @keyframes underlay-fade {
+        0% {
+          background: rgba(127, 127, 127, 0);
+        }
+
+        100% {
+          background: rgba(127, 127, 127, 0.2);
+        }
+      }
+
+      .modal-form-underlay {
+        animation: underlay-fade 0.5s;
+        background: rgba(127, 127, 127, 0.2);
+      }
+
+      .modal-form-pointer {
+        background: #369;
+        height: 1em;
+        margin: 0.5em 0 0 0.5em;
+        transform: rotate(45deg);
+        width: 1em;
+        z-index: -1
+      }
+
+      .modal-form {
+        background: white;
+        border: 2px solid #369;
+        box-shadow: 0 5px 20px -5px black;
+        color: black;
+        margin: 1em;
+        padding: 0 1em;
+        width: max-content;
+      }
+    </style>
+  </head>
+
+  <body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser-polyfill.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.js"></script>
+    <script src="./anchor.js"></script>
+    <script src="./base.js"></script>
+    <script src="./sticky.js"></script>
+    <script src="./triggered.js"></script>
+    <script src="./dialog.js"></script>
+
+    <script type="text/babel">
+      const NormalDemo = React.createClass({
+        getInitialState() {
+          return {
+            side: undefined
+          };
+        },
+
+        render() {
+          return <div style={{
+            textAlign: 'center'
+          }}>
+            <p>·<br />·<br />·<br /></p>
+            <p>
+              Sticky:{' '}
+              <span style={{
+                display: 'inline-block',
+                verticalAlign: 'middle'
+              }}>
+                <button type="button" value="top" onClick={this.handleSide}>▲</button><br />
+                <button type="button" value="left" onClick={this.handleSide}>◀</button>{' '}
+                ⚓{' '}
+                {this.state.side
+                  ? <ZUIStickyModalForm ref="form" side={this.state.side} onCancel={this.handleSide}>
+                      <p>Modal form on the {this.state.side}.</p>
+                      <p>Modal form. Modal form.</p>
+                      <p>Modal form. Modal form. Modal form.</p>
+                      <p>Modal form. Modal form. Modal form. Modal form.</p>
+                      <p>
+                        <img src="https://placehold.it/500x250.png" style={{
+                          maxWidth: '100%'
+                        }} />
+                      </p>
+                    </ZUIStickyModalForm>
+                  : null}
+                <button type="button" value="right" onClick={this.handleSide}>▶</button><br />
+                <button type="button" value="bottom" onClick={this.handleSide}>▼</button>
+              </span>
+            </p>
+
+            <hr />
+
+            <p>
+              Triggered:{' '}
+              <ZUITriggeredModalForm trigger="Click me">
+                <p>You did it!</p>
+                <p>
+                  <ZUITriggeredModalForm side="right" trigger="Nested?" triggerProps={{
+                    autoFocus: true
+                  }}>
+                    <p>Yeah, nested.</p>
+                  </ZUITriggeredModalForm>
+                </p>
+              </ZUITriggeredModalForm>
+            </p>
+
+            <hr />
+
+            <p>
+              Alert:{' '}
+              <button type="button" onClick={this.showAlert}>Show it</button>
+            </p>
+          </div>;
+        },
+
+        handleSide(event) {
+          this.setState({
+            side: event.target.value
+          });
+        },
+
+        showAlert() {
+          ZUIModalDialog.alert(<p>Check the console for the resulting value. <button type="submit" autoFocus>OK</button></p>)
+            .then(function() {
+              console.info('Alert resolved with', ...arguments);
+            })
+            .catch(function() {
+              console.info('Alert rejected with', ...arguments);
+            });
+        }
+      });
+
+      const container = document.createElement('div');
+      document.body.appendChild(container);
+      React.render(<NormalDemo />, container);
+    </script>
+  </body>
+</html>
