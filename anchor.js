@@ -32,7 +32,8 @@
     },
 
     renderInstance: function() {
-      this.instance = React.render(this.props.children, this.root);
+      var children = this.props.children || React.createElement('noscript');
+      this.instance = React.render(children, this.root);
     },
 
     render: function() {
