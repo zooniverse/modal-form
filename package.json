@@ -2,7 +2,6 @@
   "name": "modal-form",
   "version": "0.2.1",
   "devDependencies": {
-    "es6-promise": "~3.0.2",
     "mocha": "~2.3.2",
     "object-assign": "~4.0.1",
     "phantomjs": "~1.9.18",

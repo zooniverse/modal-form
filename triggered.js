@@ -5,7 +5,7 @@
   var StickyModalForm;
   if (typeof require !== 'undefined') {
     React = require('react');
-    StickyModalForm = require('./anchored');
+    StickyModalForm = require('./sticky');
   } else if (typeof window !== 'undefined') {
     React = window.React;
     StickyModalForm = window.ZUIStickyModalForm;

@@ -4,7 +4,6 @@ var ModalFormBase = require('../base');
 var assert = require('assert');
 var sinon = require('sinon');
 var simulant = require('simulant');
-var Promise = require('es6-promise').Promise;
 
 describe('ModalFormBase', function() {
   it('exports', function() {
@@ -53,13 +52,16 @@ describe('ModalFormBase', function() {
       cancelHandler.reset();
     });
 
-    it('calls onCancel when the hash changes', function() {
-      location.hash = Math.random().toString(36).split('.')[1]
-      return new Promise(function(resolve) {
-        setTimeout(function() {
+    it('calls onCancel when the hash changes', function(done) {
+      location.hash = Math.random().toString(36).split('.')[1];
+      setTimeout(function() {
+        try {
           assert(cancelHandler.calledOnce);
           cancelHandler.reset();
-        });
+          done();
+        } catch (error) {
+          done(error);
+        }
       });
     });
 
