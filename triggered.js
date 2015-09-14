@@ -55,13 +55,15 @@
       var modal = null;
       if (this.state.open) {
         var modalProps = Object.assign({}, this.props, {
+          ref: 'modal',
           onSubmit: this.handleSubmit,
           onCancel: this.handleCancel
         });
         modal = React.createElement(StickyModalForm, modalProps, this.props.children);
       }
 
-      var triggerProps = Object.assign({}, {
+      var triggerProps = Object.assign({
+        ref: 'trigger',
         type: this.props.triggerTag === 'button' ? 'button' : null,
         'aria-haspopup': true,
         'aria-expanded': this.state.open

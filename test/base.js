@@ -55,13 +55,9 @@ describe('ModalFormBase', function() {
     it('calls onCancel when the hash changes', function(done) {
       location.hash = Math.random().toString(36).split('.')[1];
       setTimeout(function() {
-        try {
-          assert(cancelHandler.calledOnce);
-          cancelHandler.reset();
-          done();
-        } catch (error) {
-          done(error);
-        }
+        assert(cancelHandler.calledOnce);
+        cancelHandler.reset();
+        done();
       });
     });
 
