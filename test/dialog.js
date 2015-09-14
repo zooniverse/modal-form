@@ -38,7 +38,6 @@ describe('ModalFormDialog', function() {
       simulant.fire(window, 'keydown', {
         which: 27
       });
-
       setTimeout(function() {
         assert.equal(document.getElementById(id), null);
         done();

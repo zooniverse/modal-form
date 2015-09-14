@@ -40,7 +40,7 @@ class WithSticky extends React.Component {
         ? <StickyModalForm onCancel={this.closeTooltip}>
             <p>Here it is.</p>
           </StickyModalForm>
-        : <small>But it's hidden.</small>}
+        : <small>But it’s hidden.</small>}
     </span>;
   }
 }
@@ -114,7 +114,7 @@ import ModalFormDialog from 'modal-form/dialog';
 class WithAlert extends React.Component {
   soundTheAlarms() {
     ModalFormDialog.alert(<div>
-      <p>Something's gone wrong. <button type="submit">Fix it</button></p>
+      <p>Something’s gone wrong. <button type="submit">Fix it</button></p>
     </div>)
       .then((event) => {
         console.log('All better because of', event);
