@@ -1,55 +1,65 @@
-var test = require('tape');
-var React = require('react/addons');
+Object.assign || (Object.assign = require('object-assign'));
+var React = require('react');
 var TriggeredModalForm = require('../triggered');
-var TestUtils = React.addons.TestUtils;
-var simulant = window.simulant = require('simulant');
+var assert = require('assert');
+simulant = require('simulant');
 
-test('TriggeredModalForm', function(t) {
-  t.test('is exported', function(t) {
-    t.equal(typeof TriggeredModalForm, 'function', 'Exported the constructor');
-    t.end();
+describe('TriggeredModalForm', function() {
+  it('exports', function() {
+    assert.equal(typeof TriggeredModalForm, 'function');
   });
 
-  t.test('can be created', function(t) {
-    var instance = React.createElement(TriggeredModalForm);
-    t.ok(instance, 'Instance created');
-    t.end();
-  });
+  describe('instance', function() {
+    var root;
+    var id;
+    var instance;
 
-  t.test('An instance', function(t) {
-    var TRIGGER_ID = 'modal-trigger'
-    var CONTENT_ID = 'triggered-content';
+    beforeEach(function() {
+      root = document.createElement('div');
+      document.body.appendChild(root);
 
-    var root = document.createElement('div');
-    root.id = 'triggered-root';
-    document.body.appendChild(root);
-
-    var trigger = React.createElement('span', {
-      id: TRIGGER_ID
-    }, 'Trigger');
-
-    var content = React.createElement('p', {
-      id: CONTENT_ID
+      id = Math.random().toString().split('.')[1];
+      var contentDiv = React.createElement('div', {
+        id: id
+      });
+      instance = React.render(React.createElement(TriggeredModalForm, null, contentDiv), root);
     });
 
-    var formTrigger = React.createElement(TriggeredModalForm, {
-      trigger: trigger
-    }, content);
+    it('Mounts a button', function() {
+      var instanceNode = React.findDOMNode(instance);
+      assert.equal(instanceNode.tagName, 'BUTTON');
+    });
 
-    var renderedTrigger = React.render(formTrigger, root);
+    it('does not mount its children', function() {
+      assert.ok(!document.getElementById(id));
+    });
 
-    t.ok(document.querySelector('#' + TRIGGER_ID), 'Trigger has been rendered');
-    t.notOk(document.querySelector('#' + CONTENT_ID), 'Triggered content is not rendered by default');
+    describe('after clicking the trigger', function() {
+      beforeEach(function() {
+        var instanceNode = React.findDOMNode(instance);
+        simulant.fire(instanceNode, 'click');
+      });
 
-    TestUtils.Simulate.click(React.findDOMNode(renderedTrigger));
-    t.ok(document.querySelector('#' + CONTENT_ID), 'Triggered content is rendered after click');
-    t.end();
+      it('mounts its children after clicking the trigger', function() {
+        assert.ok(document.getElementById(id));
+      });
 
-    t.test('clean up', function() {
+      it('unmounts its children on submit', function() {
+        simulant.fire(React.findDOMNode(instance.refs.modal.refs.form), 'submit');
+        assert.ok(!document.getElementById(id));
+      });
+
+      it('unmounts its children on cancel', function() {
+        simulant.fire(React.findDOMNode(instance.refs.modal.refs.underlay), 'click');
+        assert.ok(!document.getElementById(id));
+      });
+    });
+
+    afterEach(function() {
       React.unmountComponentAtNode(root);
       root.parentElement.removeChild(root);
-      t.end();
+      root = null;
+      instance = null;
     });
   });
-  t.end();
 });

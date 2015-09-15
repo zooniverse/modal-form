@@ -1,43 +1,34 @@
 ;(function() {
+  'use strict';
+
   var React;
-  var ModalForm;
-  var AnchoredModalForm;
+  var StickyModalForm;
   if (typeof require !== 'undefined') {
     React = require('react');
-    ModalForm = require('./index');
-    AnchoredModalForm = require('./anchored');
+    StickyModalForm = require('./sticky');
   } else if (typeof window !== 'undefined') {
     React = window.React;
-    ModalForm = window.ZUIModalForm;
-    AnchoredModalForm = window.ZUIAnchoredModalForm;
+    StickyModalForm = window.ZUIStickyModalForm;
   }
 
-  var MODAL_FORM_PROPS = Object.keys(ModalForm.defaultProps);
-
   var TriggeredModalForm = React.createClass({
-    displayName: 'TriggeredModalForm',
-
-    propTypes: {
+    propTypes: Object.assign({}, StickyModalForm.propTypes, {
+      triggerTag: React.PropTypes.string,
       trigger: React.PropTypes.oneOfType([
         React.PropTypes.element,
         React.PropTypes.string
       ]),
-      triggerClassName: React.PropTypes.string,
-      onClick: React.PropTypes.func
-    },
+      triggerProps: React.PropTypes.object,
+      defaultOpen: React.PropTypes.bool
+    }),
 
     getDefaultProps: function() {
-      return {
-        triggerClassName: null,
+      return Object.assign({}, StickyModalForm.defaultProps, {
+        triggerTag: 'button',
         trigger: '☰',
-        onClick: Function.prototype,
-        onSubmit: Function.prototype,
-        onCancel: Function.prototype,
-        // Probably never change these:
-        tag: 'button',
-        type: 'button',
+        triggerProps: {},
         defaultOpen: false
-      };
+      });
     },
 
     getInitialState: function() {
@@ -55,55 +46,58 @@
     close: function() {
       this.setState({
         open: false
+      }, function() {
+        this.getDOMNode().focus()
       });
     },
 
     render: function() {
       var modal = null;
       if (this.state.open) {
-        var modalProps = {};
-        Object.keys(this.props).forEach(function(propName) {
-          if (MODAL_FORM_PROPS.indexOf(propName) !== -1) {
-            modalProps[propName] = this.props[propName];
-          }
-        }, this);
-        modalProps.className = this.props.className;
-        modalProps.onSubmit = this.handleSubmit;
-        modalProps.onCancel = this.handleCancel;
-
-        modal = React.createElement(AnchoredModalForm, modalProps, this.props.children);
+        var modalProps = Object.assign({}, this.props, {
+          ref: 'modal',
+          onSubmit: this.handleSubmit,
+          onCancel: this.handleCancel
+        });
+        modal = React.createElement(StickyModalForm, modalProps, this.props.children);
       }
 
-      var triggerProps = {}
-      Object.keys(this.props).forEach(function(propName) {
-        if (MODAL_FORM_PROPS.indexOf(propName) === -1) {
-          triggerProps[propName] = this.props[propName];
-        }
-      }, this);
-      triggerProps.className = [
-        'modal-form-trigger',
-        this.props.triggerClassName,
-        this.props.className
-      ].join(' ').trim();
-      triggerProps['data-active'] = this.state.open || null;
-      triggerProps.onClick = this.handleClick;
+      var triggerProps = Object.assign({
+        ref: 'trigger',
+        type: this.props.triggerTag === 'button' ? 'button' : null,
+        'aria-haspopup': true,
+        'aria-expanded': this.state.open
+      }, this.props.triggerProps, {
+        className: [
+          'modal-form-trigger',
+          this.props.className || '',
+          this.props.triggerProps && this.props.triggerProps.className || ''
+        ].join(' ').trim(),
+        onClick: this.handleClick
+      });
 
-      return React.createElement(this.props.tag, triggerProps, this.props.trigger, modal);
+      return React.createElement(this.props.triggerTag, triggerProps, this.props.trigger, modal);
     },
 
     handleClick: function() {
       this.open();
-      this.props.onClick();
+      if (this.props.triggerProps && this.props.triggerProps.onClick) {
+        this.props.triggerProps.onClick.apply(null, arguments);
+      }
     },
 
     handleSubmit: function() {
       this.close();
-      this.props.onSubmit.apply(null, arguments);
+      if (this.props.onSubmit) {
+        this.props.onSubmit.apply(null, arguments);
+      }
     },
 
     handleCancel: function() {
       this.close();
-      this.props.onCancel.apply(null, arguments);
+      if (this.props.onCancel) {
+        this.props.onCancel.apply(null, arguments);
+      }
     },
   });
 
