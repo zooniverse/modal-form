@@ -29,6 +29,7 @@
     React.Component.apply(this, arguments);
     this.handleGlobalKeyDown = this.handleGlobalKeyDown.bind(this);
     this.handleGlobalNavigation = this.handleGlobalNavigation.bind(this);
+    this.lastKnownLocation = location.href;
   }
 
   ModalFormBase.propTypes = {
@@ -50,14 +51,18 @@
   };
 
   ModalFormBase.prototype = Object.assign(Object.create(React.Component.prototype), {
+    lastKnownLocation: '',
+
     componentDidMount: function() {
       addEventListener('keydown', this.handleGlobalKeyDown);
       addEventListener('hashchange', this.handleGlobalNavigation);
+      addEventListener('changestate', this.handleGlobalNavigation); // If the `history-events` module is loaded.
     },
 
     componentWillUnmount: function() {
       removeEventListener('keydown', this.handleGlobalKeyDown);
       removeEventListener('hashchange', this.handleGlobalNavigation);
+      removeEventListener('changestate', this.handleGlobalNavigation);
     },
 
     handleGlobalKeyDown: function (event) {
@@ -67,8 +72,11 @@
     },
 
     handleGlobalNavigation: function() {
-      if (!this.props.required && !this.props.persistAcrossLocations) {
-        this.props.onCancel.apply(null, arguments);
+      if (location.href !== this.lastKnownLocation) {
+        this.lastKnownLocation = location.href;
+        if (!this.props.required && !this.props.persistAcrossLocations) {
+          this.props.onCancel.apply(null, arguments);
+        }
       }
     },
 
