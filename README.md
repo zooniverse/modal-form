@@ -12,7 +12,7 @@ Just a form wrapped in a screen-covering underlay You'll probably never use this
 
 * `underlayStyle`: Overrides the style of the underlay.
 
-* `persistAcrossLocations`: Don't call the `onCancel` handler when the location hash changes. Defaults to `false`.
+* `persistAcrossLocations`: Don't call the `onCancel` handler when the location changes. Defaults to `false`. `hashchange` is supported by default, but the **[history-events](https://www.npmjs.com/package/history-events)** module is required if you want to track `history.pushState`.
 
 * `loose`: Render the form underlay directly into its parent element? Defaults to `false`, which renders it into a container the body above everything else.
 

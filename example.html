@@ -127,11 +127,11 @@
 
         showAlert() {
           ZUIModalDialog.alert(<p>Check the console for the resulting value. <button type="submit" autoFocus>OK</button></p>)
-            .then(function() {
+            .then(() => {
               console.info('Alert resolved with', ...arguments);
             })
-            .catch(function() {
-              console.info('Alert rejected with', ...arguments);
+            .catch(() => {
+              console.warn('Alert rejected with', ...arguments);
             });
         }
       });
