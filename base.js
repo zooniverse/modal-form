@@ -32,6 +32,8 @@
     this.lastKnownLocation = location.href;
   }
 
+  ModalFormBase.locationChangeEvent = 'locationchange';
+
   ModalFormBase.propTypes = {
     required: React.PropTypes.bool,
     underlayStyle: React.PropTypes.object,
@@ -56,13 +58,13 @@
     componentDidMount: function() {
       addEventListener('keydown', this.handleGlobalKeyDown);
       addEventListener('hashchange', this.handleGlobalNavigation);
-      addEventListener('changestate', this.handleGlobalNavigation); // If the `history-events` module is loaded.
+      addEventListener(ModalFormBase.locationChangeEvent, this.handleGlobalNavigation);
     },
 
     componentWillUnmount: function() {
       removeEventListener('keydown', this.handleGlobalKeyDown);
       removeEventListener('hashchange', this.handleGlobalNavigation);
-      removeEventListener('changestate', this.handleGlobalNavigation);
+      removeEventListener(ModalFormBase.locationChangeEvent, this.handleGlobalNavigation);
     },
 
     handleGlobalKeyDown: function (event) {

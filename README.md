@@ -12,7 +12,7 @@ Just a form wrapped in a screen-covering underlay You'll probably never use this
 
 * `underlayStyle`: Overrides the style of the underlay.
 
-* `persistAcrossLocations`: Don't call the `onCancel` handler when the location changes. Defaults to `false`. `hashchange` is supported by default, but the **[history-events](https://www.npmjs.com/package/history-events)** module is required if you want to track `history.pushState`.
+* `persistAcrossLocations`: Don't call the `onCancel` handler when the location changes. Defaults to `false`. `hashchange` is supported by default. To track other location-changing events, trigger them manually and set `BaseModalForm.locationChangeEvent` to the event name (defaults to `"locationchange"`) before mounting any modal forms.
 
 * `loose`: Render the form underlay directly into its parent element? Defaults to `false`, which renders it into a container the body above everything else.
 
