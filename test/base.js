@@ -1,5 +1,4 @@
 Object.assign || (Object.assign = require('object-assign'));
-require('history-events');
 var React = require('react');
 var ModalFormBase = require('../base');
 var assert = require('assert');
@@ -64,6 +63,7 @@ describe('ModalFormBase', function() {
 
     it('calls onCancel when the history state changes', function(done) {
       history.pushState({}, '', Math.random().toString(36).split('.')[1]);
+      simulant.fire(window, 'locationchange');
       setTimeout(function() {
         assert(cancelHandler.calledOnce);
         history.back();
