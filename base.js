@@ -53,8 +53,6 @@
   };
 
   ModalFormBase.prototype = Object.assign(Object.create(React.Component.prototype), {
-    lastKnownLocation: '',
-
     componentDidMount: function() {
       addEventListener('keydown', this.handleGlobalKeyDown);
       addEventListener('hashchange', this.handleGlobalNavigation);
@@ -74,11 +72,8 @@
     },
 
     handleGlobalNavigation: function() {
-      if (location.href !== this.lastKnownLocation) {
-        this.lastKnownLocation = location.href;
-        if (!this.props.required && !this.props.persistAcrossLocations) {
-          this.props.onCancel.apply(null, arguments);
-        }
+      if (!this.props.required && !this.props.persistAcrossLocations) {
+        this.props.onCancel.apply(null, arguments);
       }
     },
 
