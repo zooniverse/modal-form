@@ -46,7 +46,7 @@
 
         promise.catch(Function.prototype).then(function() {
           React.unmountComponentAtNode(container);
-          container.parentElement.removeChild(container);
+          container.parentNode.removeChild(container);
         });
 
         return promise;

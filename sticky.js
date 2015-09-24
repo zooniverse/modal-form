@@ -68,7 +68,7 @@
         height: innerHeight
       };
 
-      var anchor = React.findDOMNode(this).parentElement;
+      var anchor = React.findDOMNode(this).parentNode;
       var anchorRect = this.getRectWithMargin(anchor);
 
       var form = React.findDOMNode(this.refs.form);

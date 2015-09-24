@@ -22,7 +22,7 @@
 
     componentWillUnmount: function() {
       React.unmountComponentAtNode(this.root);
-      this.root.parentElement.removeChild(this.root);
+      this.root.parentNode.removeChild(this.root);
       this.root = null;
       this.instance = null;
     },
