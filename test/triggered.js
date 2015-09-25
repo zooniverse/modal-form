@@ -57,7 +57,7 @@ describe('TriggeredModalForm', function() {
 
     afterEach(function() {
       React.unmountComponentAtNode(root);
-      root.parentElement.removeChild(root);
+      root.parentNode.removeChild(root);
       root = null;
       instance = null;
     });

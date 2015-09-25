@@ -4,6 +4,7 @@ var ModalFormBase = require('../base');
 var assert = require('assert');
 var sinon = require('sinon');
 var simulant = require('simulant');
+var CustomEvent = require('custom-event');
 
 describe('ModalFormBase', function() {
   it('exports', function() {
@@ -52,29 +53,21 @@ describe('ModalFormBase', function() {
       cancelHandler.reset();
     });
 
-    it('calls onCancel when the hash changes', function(done) {
-      location.hash = Math.random().toString(36).split('.')[1];
-      setTimeout(function() {
-        assert(cancelHandler.calledOnce);
-        cancelHandler.reset();
-        done();
-      }, 500);
+    it('calls onCancel when the hash changes', function() {
+      dispatchEvent(new CustomEvent('hashchange'));
+      assert(cancelHandler.calledOnce);
+      cancelHandler.reset();
     });
 
-    it('calls onCancel when the history state changes', function(done) {
-      history.pushState({}, '', Math.random().toString(36).split('.')[1]);
-      simulant.fire(window, 'locationchange');
-      setTimeout(function() {
-        assert(cancelHandler.calledOnce);
-        history.back();
-        cancelHandler.reset();
-        done();
-      });
+    it('calls onCancel when the history state changes', function() {
+      dispatchEvent(new CustomEvent('locationchange'));
+      assert(cancelHandler.calledOnce);
+      cancelHandler.reset();
     });
 
     afterEach(function() {
       React.unmountComponentAtNode(root);
-      root.parentElement.removeChild(root);
+      root.parentNode.removeChild(root);
       root = null;
       instance = null;
       submitHandler = null;
