@@ -76,16 +76,18 @@
       form.style.top = '';
       var formRect = this.getRectWithMargin(form);
       var formPosition = this.getPosition[props.side].call(this, formRect, anchorRect, viewport);
-      form.style.left = formPosition.left + 'px';
-      form.style.top = formPosition.top + 'px';
+      form.style.left = pageXOffset + formPosition.left + 'px';
+      form.style.top = pageYOffset + formPosition.top + 'px';
 
       var pointer = React.findDOMNode(this.refs.pointer);
       pointer.style.left = '';
       pointer.style.top = '';
       var pointerRect = this.getRectWithMargin(pointer);
       var pointerPosition = this.getPosition[props.side].call(this, pointerRect, anchorRect, viewport);
-      pointer.style.left = pointerPosition.left + 'px';
-      pointer.style.top = pointerPosition.top + 'px';
+      pointer.style.left = pageXOffset + pointerPosition.left + 'px';
+      pointer.style.top = pageYOffset + pointerPosition.top + 'px';
+
+      this.syncUnderlaySize();
     },
 
     getRectWithMargin: function(domNode) {
@@ -104,15 +106,13 @@
 
     getHorizontallyCenteredLeft: function(movableRect, anchorRect, viewport) {
       var left = anchorRect.left - ((movableRect.width - anchorRect.width) / 2);
-      left = Math.max(left, 0);
-      left = Math.min(left, viewport.width - movableRect.width);
+      left = Math.max(left, -1 * pageXOffset);
       return left;
     },
 
     getVerticalCenteredTop: function(movableRect, anchorRect, viewport) {
       var top = anchorRect.top - ((movableRect.height - anchorRect.height) / 2);
-      top = Math.max(top, 0);
-      top = Math.min(top, viewport.height - movableRect.height)
+      top = Math.max(top, -1 * pageYOffset);
       return top;
     },
 
