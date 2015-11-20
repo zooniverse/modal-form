@@ -2,12 +2,15 @@
   'use strict';
 
   var React;
+  var ReactDOM;
   var StickyModalForm;
   if (typeof require !== 'undefined') {
     React = require('react');
+    ReactDOM = require('react-dom');
     StickyModalForm = require('./sticky');
   } else if (typeof window !== 'undefined') {
     React = window.React;
+    ReactDOM = window.ReactDOM;
     StickyModalForm = window.ZUIStickyModalForm;
   }
 
@@ -47,7 +50,10 @@
       this.setState({
         open: false
       }, function() {
-        this.getDOMNode().focus()
+        var trigger = ReactDOM.findDOMNode(this);
+        if (trigger.focus) {
+          trigger.focus();
+        }
       });
     },
 

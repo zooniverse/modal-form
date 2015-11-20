@@ -2,12 +2,15 @@
   'use strict';
 
   var React;
+  var ReactDOM;
   var ModalFormBase;
   if (typeof require !== 'undefined') {
     React = require('react');
+    ReactDOM = require('react-dom');
     ModalFormBase = require('./base');
   } else if (typeof window !== 'undefined') {
     React = window.React;
+    ReactDOM = window.ReactDOM;
     ModalFormBase = window.ZUIModalFormBase;
   }
 
@@ -68,10 +71,10 @@
         height: innerHeight
       };
 
-      var anchor = React.findDOMNode(this).parentNode;
+      var anchor = ReactDOM.findDOMNode(this).parentNode;
       var anchorRect = this.getRectWithMargin(anchor);
 
-      var form = React.findDOMNode(this.refs.form);
+      var form = this.refs.form;
       form.style.left = '';
       form.style.top = '';
       var formRect = this.getRectWithMargin(form);
@@ -79,7 +82,7 @@
       form.style.left = pageXOffset + formPosition.left + 'px';
       form.style.top = pageYOffset + formPosition.top + 'px';
 
-      var pointer = React.findDOMNode(this.refs.pointer);
+      var pointer = this.refs.pointer;
       pointer.style.left = '';
       pointer.style.top = '';
       var pointerRect = this.getRectWithMargin(pointer);

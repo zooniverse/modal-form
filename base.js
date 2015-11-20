@@ -123,7 +123,7 @@
     },
 
     syncUnderlaySize: function() {
-      var underlay = React.findDOMNode(this.refs.underlay);
+      var underlay = this.refs.underlay;
       var widthChanged = underlay.scrollWidth !== this.state.underlayScrollWidth;
       var heightChanged = underlay.scrollHeight !== this.state.underlayScrollHeight;
       if (widthChanged || heightChanged) {
@@ -140,7 +140,7 @@
     },
 
     handleUnderlayClick: function(event) {
-      if (!this.props.required && event.target === React.findDOMNode(this.refs.underlay)) {
+      if (!this.props.required && event.target === this.refs.underlay) {
         this.props.onCancel.apply(null, arguments);
       }
     }

@@ -2,10 +2,13 @@
   'use strict';
 
   var React;
+  var ReactDOM;
   if (typeof require !== 'undefined') {
     React = require('react');
+    ReactDOM = require('react-dom');
   } else if (typeof window !== 'undefined') {
     React = window.React;
+    ReactDOM = window.ReactDOM;
   }
 
   function ModalFormAnchor() {
@@ -21,7 +24,7 @@
     },
 
     componentWillUnmount: function() {
-      React.unmountComponentAtNode(this.root);
+      ReactDOM.unmountComponentAtNode(this.root);
       this.root.parentNode.removeChild(this.root);
       this.root = null;
       this.instance = null;
@@ -33,7 +36,7 @@
 
     renderInstance: function() {
       var children = this.props.children || React.createElement('noscript');
-      this.instance = React.render(children, this.root);
+      this.instance = ReactDOM.render(children, this.root);
     },
 
     render: function() {

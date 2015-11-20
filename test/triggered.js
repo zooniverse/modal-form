@@ -1,5 +1,6 @@
 Object.assign || (Object.assign = require('object-assign'));
 var React = require('react');
+var ReactDOM = require('react-dom');
 var TriggeredModalForm = require('../triggered');
 var assert = require('assert');
 simulant = require('simulant');
@@ -22,11 +23,11 @@ describe('TriggeredModalForm', function() {
       var contentDiv = React.createElement('div', {
         id: id
       });
-      instance = React.render(React.createElement(TriggeredModalForm, null, contentDiv), root);
+      instance = ReactDOM.render(React.createElement(TriggeredModalForm, null, contentDiv), root);
     });
 
     it('Mounts a button', function() {
-      var instanceNode = React.findDOMNode(instance);
+      var instanceNode = ReactDOM.findDOMNode(instance);
       assert.equal(instanceNode.tagName, 'BUTTON');
     });
 
@@ -36,7 +37,7 @@ describe('TriggeredModalForm', function() {
 
     describe('after clicking the trigger', function() {
       beforeEach(function() {
-        var instanceNode = React.findDOMNode(instance);
+        var instanceNode = ReactDOM.findDOMNode(instance);
         simulant.fire(instanceNode, 'click');
       });
 
@@ -45,18 +46,18 @@ describe('TriggeredModalForm', function() {
       });
 
       it('unmounts its children on submit', function() {
-        simulant.fire(React.findDOMNode(instance.refs.modal.refs.form), 'submit');
+        simulant.fire(instance.refs.modal.refs.form, 'submit');
         assert.ok(!document.getElementById(id));
       });
 
       it('unmounts its children on cancel', function() {
-        simulant.fire(React.findDOMNode(instance.refs.modal.refs.underlay), 'click');
+        simulant.fire(instance.refs.modal.refs.underlay, 'click');
         assert.ok(!document.getElementById(id));
       });
     });
 
     afterEach(function() {
-      React.unmountComponentAtNode(root);
+      ReactDOM.unmountComponentAtNode(root);
       root.parentNode.removeChild(root);
       root = null;
       instance = null;

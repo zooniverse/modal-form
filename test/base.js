@@ -1,5 +1,6 @@
 Object.assign || (Object.assign = require('object-assign'));
 var React = require('react');
+var ReactDOM = require('react-dom');
 var ModalFormBase = require('../base');
 var assert = require('assert');
 var sinon = require('sinon');
@@ -25,14 +26,14 @@ describe('ModalFormBase', function() {
       cancelHandler = sinon.spy();
 
       var contentDiv = React.createElement('div');
-      instance = React.render(React.createElement(ModalFormBase, {
+      instance = ReactDOM.render(React.createElement(ModalFormBase, {
         onSubmit: submitHandler,
         onCancel: cancelHandler
       }), root);
     });
 
     it('calls onSubmit on submit', function() {
-      var form = React.findDOMNode(instance.refs.form);
+      var form = instance.refs.form;
       simulant.fire(form, 'submit');
       assert(submitHandler.calledOnce);
       submitHandler.reset();
@@ -47,7 +48,7 @@ describe('ModalFormBase', function() {
     });
 
     it('calls onCancel after clicking the underlay', function() {
-      var underlay = React.findDOMNode(instance.refs.underlay);
+      var underlay = instance.refs.underlay;
       simulant.fire(underlay, 'click');
       assert(cancelHandler.calledOnce);
       cancelHandler.reset();
@@ -66,7 +67,7 @@ describe('ModalFormBase', function() {
     });
 
     afterEach(function() {
-      React.unmountComponentAtNode(root);
+      ReactDOM.unmountComponentAtNode(root);
       root.parentNode.removeChild(root);
       root = null;
       instance = null;
