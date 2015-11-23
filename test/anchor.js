@@ -1,5 +1,6 @@
 Object.assign || (Object.assign = require('object-assign'));
 var React = require('react');
+var ReactDOM = require('react-dom');
 var ModalFormAnchor = require('../anchor');
 var assert = require('assert');
 var sinon = require('sinon');
@@ -29,7 +30,7 @@ describe('ModalFormAnchor', function() {
         var contentDiv = React.createElement('div', {
           id: id
         });
-        instance = React.render(React.createElement(ModalFormAnchor, null, contentDiv), ancestors[ancestors.length - 1]);
+        instance = ReactDOM.render(React.createElement(ModalFormAnchor, null, contentDiv), ancestors[ancestors.length - 1]);
       });
 
       it('is instantiated', function() {
@@ -37,7 +38,7 @@ describe('ModalFormAnchor', function() {
       });
 
       it('drops an anchor', function() {
-        assert.equal(React.findDOMNode(instance).tagName, 'NOSCRIPT');
+        assert.equal(ReactDOM.findDOMNode(instance).tagName, 'NOSCRIPT');
       });
 
       it('renders its root in the body', function() {
@@ -50,7 +51,7 @@ describe('ModalFormAnchor', function() {
         });
 
         it('renders outside of itself', function() {
-          var descendants = Array.prototype.slice.call(React.findDOMNode(instance).querySelectorAll('*'));
+          var descendants = Array.prototype.slice.call(ReactDOM.findDOMNode(instance).querySelectorAll('*'));
           var contentDiv = document.getElementById(id);
           assert.equal(descendants.indexOf(contentDiv), -1);
         });
@@ -63,7 +64,7 @@ describe('ModalFormAnchor', function() {
       });
 
       afterEach(function() {
-        React.unmountComponentAtNode(ancestors[ancestors.length - 1]);
+        ReactDOM.unmountComponentAtNode(ancestors[ancestors.length - 1]);
         ancestors.forEach(function(element) {
           element.parentNode.removeChild(element);
         });

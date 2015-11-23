@@ -2,12 +2,15 @@
   'use strict';
 
   var React;
+  var ReactDOM;
   var ModalFormBase;
   if (typeof require !== 'undefined') {
     React = require('react');
+    ReactDOM = require('react-dom');
     ModalFormBase = require('./base');
   } else if (typeof window !== 'undefined') {
     React = window.React;
+    ReactDOM = window.ReactDOM;
     ModalFormBase = window.ZUIModalFormBase;
   }
 
@@ -38,14 +41,14 @@
             }
           }
 
-          React.render(React.createElement(ModalDialog, Object.assign({}, props, {
+          ReactDOM.render(React.createElement(ModalDialog, Object.assign({}, props, {
             onSubmit: handleSubmit,
             onCancel: handleCancel
           }), message), container);
         });
 
         promise.catch(Function.prototype).then(function() {
-          React.unmountComponentAtNode(container);
+          ReactDOM.unmountComponentAtNode(container);
           container.parentNode.removeChild(container);
         });
 

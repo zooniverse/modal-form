@@ -1,5 +1,6 @@
 Object.assign || (Object.assign = require('object-assign'));
 var React = require('react');
+var ReactDOM = require('react-dom');
 var StickyModalForm = require('../sticky');
 var assert = require('assert');
 var sinon = require('sinon');
@@ -43,40 +44,40 @@ describe('StickyModalForm', function() {
       });
 
       it('can stick to the left', function() {
-        var instance = React.render(React.createElement(StickyModalForm, {
+        var instance = ReactDOM.render(React.createElement(StickyModalForm, {
           side: 'left'
         }, content), root);
-        var form = React.findDOMNode(instance.refs.form);
+        var form = instance.refs.form;
         var formRect = form.getBoundingClientRect();
         assert.equal(formRect.left, 0);
         assert.equal(formRect.top, 100);
       });
 
       it('can stick to the right', function() {
-        var instance = React.render(React.createElement(StickyModalForm, {
+        var instance = ReactDOM.render(React.createElement(StickyModalForm, {
           side: 'right'
         }, content), root);
-        var form = React.findDOMNode(instance.refs.form);
+        var form = instance.refs.form;
         var formRect = form.getBoundingClientRect();
         assert.equal(formRect.left, 200);
         assert.equal(formRect.top, 100);
       });
 
       it('can stick to the top', function() {
-        var instance = React.render(React.createElement(StickyModalForm, {
+        var instance = ReactDOM.render(React.createElement(StickyModalForm, {
           side: 'top'
         }, content), root);
-        var form = React.findDOMNode(instance.refs.form);
+        var form = instance.refs.form;
         var formRect = form.getBoundingClientRect();
         assert.equal(formRect.left, 100);
         assert.equal(formRect.top, 0);
       });
 
       it('can stick to the bottom', function() {
-        var instance = React.render(React.createElement(StickyModalForm, {
+        var instance = ReactDOM.render(React.createElement(StickyModalForm, {
           side: 'bottom'
         }, content), root);
-        var form = React.findDOMNode(instance.refs.form);
+        var form = instance.refs.form;
         var formRect = form.getBoundingClientRect();
         assert.equal(formRect.left, 100);
         assert.equal(formRect.top, 200);
@@ -88,7 +89,7 @@ describe('StickyModalForm', function() {
     });
 
     afterEach(function() {
-      React.unmountComponentAtNode(root);
+      ReactDOM.unmountComponentAtNode(root);
       root.parentNode.removeChild(root);
       root = null;
     });
