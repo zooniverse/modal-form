@@ -85,6 +85,8 @@ Again, the `<ul>` inside the `<p>` works just fine.
 
 A generic dialog that takes over the screen.
 
+* `closeButton`: A boolean to add a standard close button to the dialog. This can close a `required` dialog without submitting it. Defaults to `false`.
+
 * `left`, `top`: Both CSS percent strings, these default to `"50%"` and `"40%"` respectively.
 
 ```jsx

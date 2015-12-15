@@ -57,12 +57,14 @@
     },
 
     propTypes: Object.assign({}, ModalFormBase.propTypes, {
+      closeButton: React.PropTypes.bool,
       left: mustBePercentString,
       top: mustBePercentString
     }),
 
     getDefaultProps: function() {
       return Object.assign({}, ModalFormBase.defaultProps, {
+        closeButton: false,
         left: '50%',
         top: '40%'
       });
@@ -85,7 +87,21 @@
         style: Object.assign(positionStyle, this.props.style)
       });
 
-      return React.createElement(ModalFormBase, modalProps, this.props.children);
+      var closeButton;
+      if (this.props.closeButton) {
+        closeButton = React.createElement('button', {
+          type: 'button',
+          className: 'modal-dialog-toolbar-button modal-dialog-close-button',
+          title: 'Close',
+          onClick: this.props.onCancel
+        }, '×');
+      }
+
+      var toolbar = React.createElement('div', {
+        className: 'modal-dialog-toolbar'
+      }, closeButton);
+
+      return React.createElement(ModalFormBase, modalProps, toolbar, this.props.children);
     }
   });
 
