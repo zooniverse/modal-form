@@ -14,12 +14,6 @@
     ModalFormBase = window.ZUIModalFormBase;
   }
 
-  function mustBePercentString(props, propName, componentName) {
-    if (!/\d%/.test(props[propName])) {
-      return new Error('Must be a percent as a string, e.g. "50%".');
-    }
-  }
-
   var ModalDialog = React.createClass({
     statics: {
       alert: function(message, props) {
@@ -58,25 +52,25 @@
 
     propTypes: Object.assign({}, ModalFormBase.propTypes, {
       closeButton: React.PropTypes.bool,
-      left: mustBePercentString,
-      top: mustBePercentString
+      left: React.PropTypes.number,
+      top: React.PropTypes.number
     }),
 
     getDefaultProps: function() {
       return Object.assign({}, ModalFormBase.defaultProps, {
         closeButton: false,
-        left: '50%',
-        top: '40%'
+        left: 0.5,
+        top: 0.4
       });
     },
 
     render: function() {
       var positionStyle = {
-        left: this.props.left,
-        top: this.props.top,
+        left: (this.props.left * 100) + '%',
+        top: (this.props.top * 100) + '%',
         transform: 'translate(' + [
-          -1 * parseFloat(this.props.left) + '%',
-          -1 * parseFloat(this.props.top) + '%'
+          (this.props.left * -100) + '%',
+          (this.props.top * -100) + '%'
         ].join(',') + ')'
       };
 
@@ -84,7 +78,7 @@
         'role': 'dialog'
       }, this.props, {
         className: ('modal-dialog ' + (this.props.className || '')).trim(),
-        style: Object.assign(positionStyle, this.props.style)
+        style: Object.assign({}, positionStyle, this.props.style)
       });
 
       var closeButton;
