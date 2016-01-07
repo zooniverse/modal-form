@@ -29,7 +29,6 @@
     React.Component.apply(this, arguments);
     this.handleGlobalKeyDown = this.handleGlobalKeyDown.bind(this);
     this.handleGlobalNavigation = this.handleGlobalNavigation.bind(this);
-    this.lastKnownLocation = location.href;
     this.state = {
       underlayScrollWidth: 0,
       underlayScrollHeight: 0
