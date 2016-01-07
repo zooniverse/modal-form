@@ -41,6 +41,7 @@
     underlayStyle: React.PropTypes.object,
     persistAcrossLocations: React.PropTypes.bool,
     loose: React.PropTypes.bool,
+    onReposition: React.PropTypes.func,
     onSubmit: React.PropTypes.func,
     onCancel: React.PropTypes.func
   };
@@ -50,11 +51,21 @@
     underlayStyle: {},
     persistAcrossLocations: false,
     loose: false,
+    onReposition: Function.prototype,
     onSubmit: Function.prototype,
     onCancel: Function.prototype
   };
 
   ModalFormBase.prototype = Object.assign(Object.create(React.Component.prototype), {
+    _originalScrollPosition: null,
+
+    componentWillMount: function() {
+      if (typeof pageXOffset !== 'undefined') {
+        // Mounting a modal with `autoFocus` content scrolls to the top before it repositions.
+        this._originalScrollPosition = [pageXOffset, pageYOffset];
+      }
+    },
+
     componentDidMount: function() {
       addEventListener('scroll', this.reposition);
       addEventListener('resize', this.reposition);
@@ -62,6 +73,9 @@
       addEventListener('hashchange', this.handleGlobalNavigation);
       addEventListener(ModalFormBase.locationChangeEvent, this.handleGlobalNavigation);
       this.reposition();
+      if (this._originalScrollPosition !== null) {
+        scrollTo.apply(null, this._originalScrollPosition);
+      }
     },
 
     componentWillUnmount: function() {
@@ -125,16 +139,19 @@
     },
 
     reposition: function() {
-      var totalWidth = Math.max(document.documentElement.offsetWidth, innerWidth);
-      var totalHeight = Math.max(document.documentElement.offsetHeight, innerHeight);
-      var widthChanged = totalWidth !== this.state.underlayWidth;
-      var heightChanged = totalHeight !== this.state.underlayHeight;
-      if (widthChanged || heightChanged) {
+      var formRect = this.refs.form.getBoundingClientRect();
+      var formStyle = getComputedStyle(this.refs.form);
+      var formRight = pageXOffset + formRect.right + parseFloat(formStyle.marginRight);
+      var formBottom = pageYOffset + formRect.bottom + parseFloat(formStyle.marginBottom);
+      var totalWidth = Math.max(document.documentElement.offsetWidth, innerWidth, formRight);
+      var totalHeight = Math.max(document.documentElement.offsetHeight, innerHeight, formBottom);
+      if (totalWidth !== this.state.underlayWidth || totalHeight !== this.state.underlayHeight) {
         this.setState({
           underlayWidth: totalWidth,
           underlayHeight: totalHeight
         });
       }
+      this.props.onReposition();
     },
 
     handleFormSubmit: function(event) {

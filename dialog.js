@@ -64,21 +64,28 @@
       });
     },
 
+    getInitialState: function() {
+      return {
+        scrollX: pageXOffset,
+        scrollY: pageYOffset,
+        dialogLeft: 0,
+        dialogTop: 0
+      };
+    },
+
     render: function() {
       var positionStyle = {
-        left: (this.props.left * 100) + '%',
-        top: (this.props.top * 100) + '%',
-        transform: 'translate(' + [
-          (this.props.left * -100) + '%',
-          (this.props.top * -100) + '%'
-        ].join(',') + ')'
+        left: this.state.dialogLeft,
+        top: this.state.dialogTop
       };
 
       var modalProps = Object.assign({
-        'role': 'dialog'
+        ref: 'modal',
+        role: 'dialog'
       }, this.props, {
         className: ('modal-dialog ' + (this.props.className || '')).trim(),
-        style: Object.assign({}, positionStyle, this.props.style)
+        style: Object.assign({}, positionStyle, this.props.style),
+        onReposition: this.reposition
       });
 
       var closeButton;
@@ -96,6 +103,22 @@
       }, closeButton);
 
       return React.createElement(ModalFormBase, modalProps, toolbar, this.props.children);
+    },
+
+    reposition: function() {
+      var form = this.refs.modal && this.refs.modal.refs.form;
+      if (form !== undefined) {
+        var horizontal = this.props.left * innerWidth;
+        var vertical = this.props.top * innerHeight;
+        var left = this.state.scrollX + Math.max(0, horizontal - (this.props.left * form.offsetWidth));
+        var top = this.state.scrollY + Math.max(0, vertical - (this.props.top * form.offsetHeight));
+        if (left !== this.state.dialogLeft || top !== this.state.dialogTop) {
+          this.setState({
+            dialogLeft: left,
+            dialogTop: top
+          });
+        }
+      }
     }
   });
 
