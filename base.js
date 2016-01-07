@@ -14,10 +14,8 @@
   var ESC_KEY = 27;
 
   var UNDERLAY_STYLE = {
-    bottom: 0,
     left: 0,
     position: 'absolute',
-    right: 0,
     top: 0
   };
 
@@ -27,11 +25,12 @@
 
   function ModalFormBase() {
     React.Component.apply(this, arguments);
+    this.reposition = this.reposition.bind(this);
     this.handleGlobalKeyDown = this.handleGlobalKeyDown.bind(this);
     this.handleGlobalNavigation = this.handleGlobalNavigation.bind(this);
     this.state = {
-      underlayScrollWidth: 0,
-      underlayScrollHeight: 0
+      underlayWidth: 0,
+      underlayHeight: 0
     };
   }
 
@@ -57,13 +56,17 @@
 
   ModalFormBase.prototype = Object.assign(Object.create(React.Component.prototype), {
     componentDidMount: function() {
+      addEventListener('scroll', this.reposition);
+      addEventListener('resize', this.reposition);
       addEventListener('keydown', this.handleGlobalKeyDown);
       addEventListener('hashchange', this.handleGlobalNavigation);
       addEventListener(ModalFormBase.locationChangeEvent, this.handleGlobalNavigation);
-      this.syncUnderlaySize();
+      this.reposition();
     },
 
     componentWillUnmount: function() {
+      removeEventListener('scroll', this.reposition);
+      removeEventListener('resize', this.reposition);
       removeEventListener('keydown', this.handleGlobalKeyDown);
       removeEventListener('hashchange', this.handleGlobalNavigation);
       removeEventListener(ModalFormBase.locationChangeEvent, this.handleGlobalNavigation);
@@ -101,8 +104,8 @@
 
     renderLoose: function() {
       var underlaySize = {
-        width: Math.max(this.state.underlayScrollWidth, document.documentElement.offsetWidth, innerWidth) + 'px',
-        height: Math.max(this.state.underlayScrollHeight, document.documentElement.offsetHeight, innerHeight) + 'px'
+        width: this.state.underlayWidth + 'px',
+        height: this.state.underlayHeight + 'px'
       };
       return React.createElement.apply(React, ['div', {
         ref: 'underlay',
@@ -118,17 +121,18 @@
     },
 
     componentDidUpdate: function() {
-      this.syncUnderlaySize();
+      this.reposition();
     },
 
-    syncUnderlaySize: function() {
-      var underlay = this.refs.underlay;
-      var widthChanged = underlay.scrollWidth !== this.state.underlayScrollWidth;
-      var heightChanged = underlay.scrollHeight !== this.state.underlayScrollHeight;
+    reposition: function() {
+      var totalWidth = Math.max(document.documentElement.offsetWidth, innerWidth);
+      var totalHeight = Math.max(document.documentElement.offsetHeight, innerHeight);
+      var widthChanged = totalWidth !== this.state.underlayWidth;
+      var heightChanged = totalHeight !== this.state.underlayHeight;
       if (widthChanged || heightChanged) {
         this.setState({
-          underlayScrollWidth: underlay.scrollWidth,
-          underlayScrollHeight: underlay.scrollHeight
+          underlayWidth: totalWidth,
+          underlayHeight: totalHeight
         });
       }
     },
