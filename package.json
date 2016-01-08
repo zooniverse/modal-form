@@ -1,6 +1,6 @@
 {
   "name": "modal-form",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "devDependencies": {
     "custom-event": "~1.0.0",
     "es6-promise": "~3.0.2",
