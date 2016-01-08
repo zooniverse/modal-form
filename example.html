@@ -56,6 +56,10 @@
     <script src="./dialog.js"></script>
 
     <script type="text/babel">
+      function Spacer() {
+        return <p>·<br />·<br />·<br />·<br />·<br />·<br />·<br />·<br />·<br />·<br /></p>;
+      }
+
       const NormalDemo = React.createClass({
         getInitialState() {
           return {
@@ -67,7 +71,8 @@
           return <div style={{
             textAlign: 'center'
           }}>
-            <p>·<br />·<br />·<br /></p>
+            <Spacer />
+
             <p>
               Sticky:{' '}
               <span style={{
@@ -95,7 +100,9 @@
               </span>
             </p>
 
+            <Spacer />
             <hr />
+            <Spacer />
 
             <p>
               Triggered:{' '}
@@ -128,12 +135,16 @@
               </svg>
             </p>
 
+            <Spacer />
             <hr />
+            <Spacer />
 
             <p>
               Alert:{' '}
               <button type="button" onClick={this.showAlert}>Show it</button>
             </p>
+
+            <Spacer />
           </div>;
         },
 
@@ -144,7 +155,13 @@
         },
 
         showAlert() {
-          ZUIModalDialog.alert(<p>Check the console for the resulting value. <button type="submit" autoFocus>OK</button></p>)
+          ZUIModalDialog.alert(<div>
+            <Spacer />
+            <p>Check the console for the resulting value.</p>
+            <Spacer /><Spacer /><Spacer /><Spacer />
+            <p><button type="submit" autoFocus>OK</button></p>
+            <Spacer />
+          </div>)
             .then(() => {
               console.info('Alert resolved with', ...arguments);
             })

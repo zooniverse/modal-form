@@ -22,7 +22,6 @@
 
   function StickyModalForm() {
     ModalFormBase.apply(this, arguments);
-    this.reposition = this.reposition.bind(this);
   }
 
   StickyModalForm.propTypes = Object.assign({}, ModalFormBase.propTypes, {
@@ -43,9 +42,6 @@
   StickyModalForm.prototype = Object.assign(Object.create(ModalFormBase.prototype), {
     componentDidMount: function() {
       ModalFormBase.prototype.componentDidMount.apply(this, arguments);
-      this.reposition();
-      addEventListener('scroll', this.reposition);
-      addEventListener('resize', this.reposition);
       // TODO: Figure out a way to add a global load event listener.
       Array.prototype.forEach.call(document.querySelectorAll(MEDIA_SELECTOR), function(media) {
         media.addEventListener('load', this.reposition)
@@ -54,14 +50,14 @@
 
     componentWillUnmount: function() {
       ModalFormBase.prototype.componentWillUnmount.apply(this, arguments);
-      removeEventListener('scroll', this.reposition);
-      removeEventListener('resize', this.reposition);
       Array.prototype.forEach.call(document.querySelectorAll(MEDIA_SELECTOR), function(media) {
         media.removeEventListener('load', this.reposition)
       }, this);
     },
 
     reposition: function(props) {
+      ModalFormBase.prototype.reposition.apply(this, arguments);
+
       if (props === undefined || props instanceof Event) {
         props = this.props;
       }
@@ -89,8 +85,6 @@
       var pointerPosition = this.getPosition[props.side].call(this, pointerRect, anchorRect, viewport);
       pointer.style.left = pageXOffset + pointerPosition.left + 'px';
       pointer.style.top = pageYOffset + pointerPosition.top + 'px';
-
-      this.syncUnderlaySize();
     },
 
     getRectWithMargin: function(domNode) {

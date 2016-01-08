@@ -14,10 +14,8 @@
   var ESC_KEY = 27;
 
   var UNDERLAY_STYLE = {
-    bottom: 0,
     left: 0,
     position: 'absolute',
-    right: 0,
     top: 0
   };
 
@@ -27,12 +25,12 @@
 
   function ModalFormBase() {
     React.Component.apply(this, arguments);
+    this.reposition = this.reposition.bind(this);
     this.handleGlobalKeyDown = this.handleGlobalKeyDown.bind(this);
     this.handleGlobalNavigation = this.handleGlobalNavigation.bind(this);
-    this.lastKnownLocation = location.href;
     this.state = {
-      underlayScrollWidth: 0,
-      underlayScrollHeight: 0
+      underlayWidth: 0,
+      underlayHeight: 0
     };
   }
 
@@ -43,6 +41,7 @@
     underlayStyle: React.PropTypes.object,
     persistAcrossLocations: React.PropTypes.bool,
     loose: React.PropTypes.bool,
+    onReposition: React.PropTypes.func,
     onSubmit: React.PropTypes.func,
     onCancel: React.PropTypes.func
   };
@@ -52,19 +51,36 @@
     underlayStyle: {},
     persistAcrossLocations: false,
     loose: false,
+    onReposition: Function.prototype,
     onSubmit: Function.prototype,
     onCancel: Function.prototype
   };
 
   ModalFormBase.prototype = Object.assign(Object.create(React.Component.prototype), {
+    _originalScrollPosition: null,
+
+    componentWillMount: function() {
+      if (typeof pageXOffset !== 'undefined') {
+        // Mounting a modal with `autoFocus` content scrolls to the top before it repositions.
+        this._originalScrollPosition = [pageXOffset, pageYOffset];
+      }
+    },
+
     componentDidMount: function() {
+      addEventListener('scroll', this.reposition);
+      addEventListener('resize', this.reposition);
       addEventListener('keydown', this.handleGlobalKeyDown);
       addEventListener('hashchange', this.handleGlobalNavigation);
       addEventListener(ModalFormBase.locationChangeEvent, this.handleGlobalNavigation);
-      this.syncUnderlaySize();
+      this.reposition();
+      if (this._originalScrollPosition !== null) {
+        scrollTo.apply(null, this._originalScrollPosition);
+      }
     },
 
     componentWillUnmount: function() {
+      removeEventListener('scroll', this.reposition);
+      removeEventListener('resize', this.reposition);
       removeEventListener('keydown', this.handleGlobalKeyDown);
       removeEventListener('hashchange', this.handleGlobalNavigation);
       removeEventListener(ModalFormBase.locationChangeEvent, this.handleGlobalNavigation);
@@ -102,8 +118,8 @@
 
     renderLoose: function() {
       var underlaySize = {
-        width: Math.max(this.state.underlayScrollWidth, document.documentElement.offsetWidth, innerWidth) + 'px',
-        height: Math.max(this.state.underlayScrollHeight, document.documentElement.offsetHeight, innerHeight) + 'px'
+        width: this.state.underlayWidth + 'px',
+        height: this.state.underlayHeight + 'px'
       };
       return React.createElement.apply(React, ['div', {
         ref: 'underlay',
@@ -119,19 +135,23 @@
     },
 
     componentDidUpdate: function() {
-      this.syncUnderlaySize();
+      this.reposition();
     },
 
-    syncUnderlaySize: function() {
-      var underlay = this.refs.underlay;
-      var widthChanged = underlay.scrollWidth !== this.state.underlayScrollWidth;
-      var heightChanged = underlay.scrollHeight !== this.state.underlayScrollHeight;
-      if (widthChanged || heightChanged) {
+    reposition: function() {
+      var formRect = this.refs.form.getBoundingClientRect();
+      var formStyle = getComputedStyle(this.refs.form);
+      var formRight = pageXOffset + formRect.right + parseFloat(formStyle.marginRight);
+      var formBottom = pageYOffset + formRect.bottom + parseFloat(formStyle.marginBottom);
+      var totalWidth = Math.max(document.documentElement.offsetWidth, innerWidth, formRight);
+      var totalHeight = Math.max(document.documentElement.offsetHeight, innerHeight, formBottom);
+      if (totalWidth !== this.state.underlayWidth || totalHeight !== this.state.underlayHeight) {
         this.setState({
-          underlayScrollWidth: underlay.scrollWidth,
-          underlayScrollHeight: underlay.scrollHeight
+          underlayWidth: totalWidth,
+          underlayHeight: totalHeight
         });
       }
+      this.props.onReposition();
     },
 
     handleFormSubmit: function(event) {
