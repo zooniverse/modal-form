@@ -37,6 +37,7 @@
   ModalFormBase.locationChangeEvent = 'locationchange';
 
   ModalFormBase.propTypes = {
+    tag: React.PropTypes.node,
     required: React.PropTypes.bool,
     underlayStyle: React.PropTypes.object,
     persistAcrossLocations: React.PropTypes.bool,
@@ -47,6 +48,7 @@
   };
 
   ModalFormBase.defaultProps = {
+    tag: 'form',
     required: false,
     underlayStyle: {},
     persistAcrossLocations: false,
@@ -99,12 +101,19 @@
     },
 
     getUnderlayChildren: function() {
-      return React.createElement('form', {
+      var action;
+      var onSubmit;
+      if (this.props.tag === 'form') {
+        action = 'POST';
+        onSubmit = this.handleFormSubmit.bind(this)
+      }
+
+      return React.createElement(this.props.tag, {
         ref: 'form',
         className: ('modal-form ' + (this.props.className || '')).trim(),
-        action: 'POST',
+        action: action,
         style: Object.assign({}, FORM_STYLE, this.props.style),
-        onSubmit: this.handleFormSubmit.bind(this)
+        onSubmit: onSubmit
       }, this.props.children);
     },
 
