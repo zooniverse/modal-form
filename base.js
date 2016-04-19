@@ -152,7 +152,7 @@
       var formStyle = getComputedStyle(this.refs.form);
       var formRight = pageXOffset + formRect.right + parseFloat(formStyle.marginRight);
       var formBottom = pageYOffset + formRect.bottom + parseFloat(formStyle.marginBottom);
-      var totalWidth = Math.max(document.documentElement.offsetWidth, innerWidth, formRight);
+      var totalWidth = Math.max(document.documentElement.offsetWidth, formRight); // Skip `innerWidth` to avoid counting scrollbar.
       var totalHeight = Math.max(document.documentElement.offsetHeight, innerHeight, formBottom);
       if (totalWidth !== this.state.underlayWidth || totalHeight !== this.state.underlayHeight) {
         this.setState({
