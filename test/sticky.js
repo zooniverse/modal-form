@@ -83,6 +83,28 @@ describe('StickyModalForm', function() {
         assert.equal(formRect.top, 200);
       });
 
+      it('can stick to the bottom of the visible portion of a clipped SVG element', function() {
+
+        var instance = ReactDOM.render(
+          React.createElement( 'svg', { width:"100", height:"100", viewBox:"0 0 100 100", verticalAlign: "middle"},
+            React.createElement(StickyModalForm, { side: 'bottom'},
+              React.createElement('line', { x1:"-50", y1:"50", x2:"50", y2:"50", strokeWidth:"10"})
+            )
+          )
+        , root);
+
+        // is this the best way to access the node? can't pick up form refs...
+        var renderedSVGNode = ReactDOM.findDOMNode(instance);
+        var clickableGroupTag = renderedSVGNode.querySelector(".modal-form-trigger");
+
+        var svgRect = renderedSVGNode.getBoundingClientRect();
+
+
+        assert.equal(Math.round(svgRect.top), 100); 
+        assert.equal(Math.round(svgRect.left), 100);
+        
+      });
+
       afterEach(function() {
         content = null;
       });

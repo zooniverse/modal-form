@@ -62,13 +62,29 @@
         props = this.props;
       }
 
-      var viewport = {
-        width: innerWidth,
-        height: innerHeight
-      };
-
       var anchor = ReactDOM.findDOMNode(this).parentNode;
       var anchorRect = this.getRectWithMargin(anchor);
+      var anchorParent = anchor.parentElement;
+
+      // if the parent element is an svg tag,
+      // the svg viewport becomes the desired viewport,
+      // otherwise the viewport is the window.
+
+      if (anchorParent.tagName === "svg"){
+        var viewport = {
+          width: anchorParent.getBoundingClientRect().width,
+          height: anchorParent.getBoundingClientRect().height,     
+          top: anchorParent.getBoundingClientRect().top,     
+          left: anchorParent.getBoundingClientRect().left    
+        };
+      } else {
+        var viewport = {
+          width: innerWidth,
+          height: innerHeight,
+          top: 0,
+          left: 0
+        };
+      }
 
       var form = this.refs.form;
       form.style.left = '';
@@ -101,14 +117,44 @@
       return result;
     },
 
+    anchorInsideViewport: function(anchorRect, viewport) {
+      var visibleAnchor = {};
+      if (anchorRect.left + anchorRect.width > viewport.left + viewport.width){
+        visibleAnchor.right = viewport.left + viewport.width;
+      } else {
+        visibleAnchor.right = anchorRect.left + anchorRect.width
+      }
+      if (anchorRect.left < viewport.left) {
+        visibleAnchor.left = viewport.left;
+      } else {
+        visibleAnchor.left = anchorRect.left
+      }
+      if (anchorRect.top < viewport.top){
+        visibleAnchor.top = viewport.top;
+      } else {
+        visibleAnchor.top = anchorRect.top
+      }
+      if (anchorRect.top + anchorRect.height > viewport.top + viewport.height){
+        visibleAnchor.bottom = viewport.top + viewport.height;
+      } else {
+        visibleAnchor.bottom = anchorRect.top + anchorRect.height
+      }
+      
+      visibleAnchor.width = visibleAnchor.right - visibleAnchor.left
+      visibleAnchor.height = visibleAnchor.bottom - visibleAnchor.top 
+      return visibleAnchor;
+    },
+
     getHorizontallyCenteredLeft: function(movableRect, anchorRect, viewport) {
-      var left = anchorRect.left - ((movableRect.width - anchorRect.width) / 2);
+      var visibleAnchor = this.anchorInsideViewport(anchorRect, viewport);
+      var left = visibleAnchor.left - ((movableRect.width - visibleAnchor.width) / 2);
       left = Math.max(left, -1 * pageXOffset);
       return left;
     },
 
     getVerticalCenteredTop: function(movableRect, anchorRect, viewport) {
-      var top = anchorRect.top - ((movableRect.height - anchorRect.height) / 2);
+      var visibleAnchor = this.anchorInsideViewport(anchorRect, viewport);
+      var top = visibleAnchor.top - ((movableRect.height - visibleAnchor.height) / 2);
       top = Math.max(top, -1 * pageYOffset);
       return top;
     },
