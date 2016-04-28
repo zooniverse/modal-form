@@ -66,25 +66,11 @@
       var anchorRect = this.getRectWithMargin(anchor);
       var anchorParent = anchor.parentElement;
 
-      // if the parent element is an svg tag,
-      // the svg viewport becomes the desired viewport,
-      // otherwise the viewport is the window.
-
-      if (anchorParent.tagName === "svg"){
-        var viewport = {
-          width: anchorParent.getBoundingClientRect().width,
-          height: anchorParent.getBoundingClientRect().height,     
-          top: anchorParent.getBoundingClientRect().top,     
-          left: anchorParent.getBoundingClientRect().left    
-        };
-      } else {
-        var viewport = {
-          width: innerWidth,
-          height: innerHeight,
-          top: 0,
-          left: 0
-        };
+      var current_node = anchor
+      while(current_node !== document.body && getComputedStyle(current_node).overflow !== 'hidden'){
+        current_node = current_node.parentNode;
       }
+      var viewport = current_node.getBoundingClientRect();
 
       var form = this.refs.form;
       form.style.left = '';

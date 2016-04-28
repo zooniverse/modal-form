@@ -84,25 +84,35 @@ describe('StickyModalForm', function() {
       });
 
       it('can stick to the bottom of the visible portion of a clipped SVG element', function() {
-
-        var instance = ReactDOM.render(
-          React.createElement( 'svg', { width:"100", height:"100", viewBox:"0 0 100 100", verticalAlign: "middle"},
-            React.createElement(StickyModalForm, { side: 'bottom'},
-              React.createElement('line', { x1:"-50", y1:"50", x2:"50", y2:"50", strokeWidth:"10"})
-            )
-          )
-        , root);
-
-        // is this the best way to access the node? can't pick up form refs...
-        var renderedSVGNode = ReactDOM.findDOMNode(instance);
-        var clickableGroupTag = renderedSVGNode.querySelector(".modal-form-trigger");
-
-        var svgRect = renderedSVGNode.getBoundingClientRect();
-
-
-        assert.equal(Math.round(svgRect.top), 100); 
-        assert.equal(Math.round(svgRect.left), 100);
+        var svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+        svg.setAttribute("width", "100");
+        svg.setAttribute("height", "100");
+        svg.setAttribute("viewBox", "0 0 100 100");
         
+        var line = document.createElementNS("http://www.w3.org/2000/svg", 'line');
+        line.setAttribute("x1", "-50");
+        line.setAttribute("y1", "50");
+        line.setAttribute("x2", "50");
+        line.setAttribute("y2", "50");
+        line.setAttribute("stroke-width", "10");
+        line.setAttribute("stroke", "5");
+
+        svg.appendChild(line);
+        root.appendChild(svg);
+        document.body.appendChild(root);
+
+        var instance = ReactDOM.render(React.createElement(StickyModalForm, {side: 'bottom'}, 'x'), line);
+        var instanceNode = ReactDOM.findDOMNode(instance);
+        simulant.fire(line, 'click');
+        var formPointer = instance.refs.pointer
+        
+        assert.equal(formPointer.getBoundingClientRect().top, 150);
+        assert.equal(formPointer.getBoundingClientRect().left, 125);
+
+        
+        ReactDOM.unmountComponentAtNode(line);
+        svg.parentNode.removeChild(svg);
+        svg = null;
       });
 
       afterEach(function() {
