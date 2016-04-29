@@ -66,17 +66,19 @@
       var anchorRect = this.getRectWithMargin(anchor);
       var anchorParent = anchor.parentElement;
 
-      var current_node = anchor
-      while(current_node !== document.body && getComputedStyle(current_node).overflow !== 'hidden'){
-        current_node = current_node.parentNode;
+      var anchorClipParent = anchor;
+      while(anchorClipParent !== document.body && getComputedStyle(anchorClipParent).overflow !== 'hidden') {
+        anchorClipParent = anchorClipParent.parentNode;
       }
-      var viewport = current_node.getBoundingClientRect();
+
+      var clipViewport = anchorClipParent.getBoundingClientRect();
+      var visibleAnchorRect = this.anchorInsideViewport(anchorRect, clipViewport);
 
       var form = this.refs.form;
       form.style.left = '';
       form.style.top = '';
       var formRect = this.getRectWithMargin(form);
-      var formPosition = this.getPosition[props.side].call(this, formRect, anchorRect, viewport);
+      var formPosition = this.getPosition[props.side].call(this, formRect, visibleAnchorRect);
       form.style.left = pageXOffset + formPosition.left + 'px';
       form.style.top = pageYOffset + formPosition.top + 'px';
 
@@ -84,7 +86,7 @@
       pointer.style.left = '';
       pointer.style.top = '';
       var pointerRect = this.getRectWithMargin(pointer);
-      var pointerPosition = this.getPosition[props.side].call(this, pointerRect, anchorRect, viewport);
+      var pointerPosition = this.getPosition[props.side].call(this, pointerRect, visibleAnchorRect);
       pointer.style.left = pageXOffset + pointerPosition.left + 'px';
       pointer.style.top = pageYOffset + pointerPosition.top + 'px';
     },
@@ -125,49 +127,47 @@
       } else {
         visibleAnchor.bottom = anchorRect.top + anchorRect.height
       }
-      
+
       visibleAnchor.width = visibleAnchor.right - visibleAnchor.left
-      visibleAnchor.height = visibleAnchor.bottom - visibleAnchor.top 
+      visibleAnchor.height = visibleAnchor.bottom - visibleAnchor.top
       return visibleAnchor;
     },
 
-    getHorizontallyCenteredLeft: function(movableRect, anchorRect, viewport) {
-      var visibleAnchor = this.anchorInsideViewport(anchorRect, viewport);
-      var left = visibleAnchor.left - ((movableRect.width - visibleAnchor.width) / 2);
+    getHorizontallyCenteredLeft: function(movableRect, anchorRect) {
+      var left = anchorRect.left - ((movableRect.width - anchorRect.width) / 2);
       left = Math.max(left, -1 * pageXOffset);
       return left;
     },
 
-    getVerticalCenteredTop: function(movableRect, anchorRect, viewport) {
-      var visibleAnchor = this.anchorInsideViewport(anchorRect, viewport);
-      var top = visibleAnchor.top - ((movableRect.height - visibleAnchor.height) / 2);
+    getVerticalCenteredTop: function(movableRect, anchorRect) {
+      var top = anchorRect.top - ((movableRect.height - anchorRect.height) / 2);
       top = Math.max(top, -1 * pageYOffset);
       return top;
     },
 
     getPosition: {
-      left: function(movableRect, anchorRect, viewport) {
+      left: function(movableRect, anchorRect) {
         return {
           left: anchorRect.left - movableRect.width,
           top: this.getVerticalCenteredTop.apply(this, arguments)
         }
       },
 
-      right: function(movableRect, anchorRect, viewport) {
+      right: function(movableRect, anchorRect) {
         return {
           left: anchorRect.right,
           top: this.getVerticalCenteredTop.apply(this, arguments)
         }
       },
 
-      top: function(movableRect, anchorRect, viewport) {
+      top: function(movableRect, anchorRect) {
         return {
           left: this.getHorizontallyCenteredLeft.apply(this, arguments),
           top: anchorRect.top - movableRect.height,
         };
       },
 
-      bottom: function(movableRect, anchorRect, viewport) {
+      bottom: function(movableRect, anchorRect) {
         return {
           left: this.getHorizontallyCenteredLeft.apply(this, arguments),
           top: anchorRect.bottom,
