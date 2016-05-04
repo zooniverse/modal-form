@@ -41,6 +41,10 @@
         padding: 0 1em;
         width: max-content;
       }
+
+      .outside-viewport {
+        border: dotted black 1px;
+      }
     </style>
   </head>
 
@@ -132,6 +136,37 @@
                 }}>
                   <p>No problem!</p>
                 </ZUITriggeredModalForm>
+              </svg>
+            </p>
+
+            <p>
+              In an SVG element, partially outside viewport:{' '}
+              <br/>
+              <svg className="outside-viewport" width="100" height="100" viewBox="0 0 100 100" style={{
+                verticalAlign: 'middle'
+              }}>
+                <g>
+                  <ZUITriggeredModalForm side="bottom" triggerTag="g" trigger={
+                    <line x1="30" y1="70" x2="300" y2="70" stroke="red" strokeLinecap="round" strokeWidth="4" />
+                  } triggerProps={{
+                    style: {
+                      cursor: 'pointer'
+                    }
+                  }}>
+                    <p>No problem!</p>
+                  </ZUITriggeredModalForm>
+                </g>
+                <g>
+                  <ZUITriggeredModalForm side="right" triggerTag="g" trigger={
+                    <rect x="-20" y="-20" width="50" height="60" strokeWidth="3" stroke="rgb(0,0,0)" fill="transparent" />
+                  } triggerProps={{
+                    style: {
+                      cursor: 'pointer'
+                    }
+                  }}>
+                    <p>This is a rectangle!</p>
+                  </ZUITriggeredModalForm>
+                </g>
               </svg>
             </p>
 

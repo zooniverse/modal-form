@@ -83,6 +83,38 @@ describe('StickyModalForm', function() {
         assert.equal(formRect.top, 200);
       });
 
+      it('can stick to the bottom of the visible portion of a clipped SVG element', function() {
+        var svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+        svg.setAttribute("width", "100");
+        svg.setAttribute("height", "100");
+        svg.setAttribute("viewBox", "0 0 100 100");
+        
+        var line = document.createElementNS("http://www.w3.org/2000/svg", 'line');
+        line.setAttribute("x1", "-50");
+        line.setAttribute("y1", "50");
+        line.setAttribute("x2", "50");
+        line.setAttribute("y2", "50");
+        line.setAttribute("stroke-width", "10");
+        line.setAttribute("stroke", "5");
+
+        svg.appendChild(line);
+        root.appendChild(svg);
+        document.body.appendChild(root);
+
+        var instance = ReactDOM.render(React.createElement(StickyModalForm, {side: 'bottom'}, 'x'), line);
+        var instanceNode = ReactDOM.findDOMNode(instance);
+        simulant.fire(line, 'click');
+        var formPointer = instance.refs.pointer
+        
+        assert.equal(formPointer.getBoundingClientRect().top, 150);
+        assert.equal(formPointer.getBoundingClientRect().left, 125);
+
+        
+        ReactDOM.unmountComponentAtNode(line);
+        svg.parentNode.removeChild(svg);
+        svg = null;
+      });
+
       afterEach(function() {
         content = null;
       });
