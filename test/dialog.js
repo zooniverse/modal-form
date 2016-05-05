@@ -31,7 +31,7 @@ describe('ModalFormDialog', function() {
       setTimeout(function() {
         assert.equal(document.getElementById(id), null);
         done();
-      });
+      }, 50);
     });
 
     it('closes on cancel', function(done) {
@@ -41,7 +41,7 @@ describe('ModalFormDialog', function() {
       setTimeout(function() {
         assert.equal(document.getElementById(id), null);
         done();
-      });
+      }, 50);
     });
   });
 });
