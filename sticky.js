@@ -64,7 +64,6 @@
 
       var anchor = ReactDOM.findDOMNode(this).parentNode;
       var anchorRect = this.getRectWithMargin(anchor);
-      var anchorParent = anchor.parentElement;
 
       var anchorClipParent = anchor;
       while(anchorClipParent !== document.body && getComputedStyle(anchorClipParent).overflow !== 'hidden') {
