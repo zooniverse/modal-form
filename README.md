@@ -2,6 +2,8 @@
 
 These are React components. They render a form with an screen-sized underlay preventing interaction with the page.
 
+![Build status](https://travis-ci.org/zooniverse/modal-form.svg)
+
 ## Components
 
 ### Base
