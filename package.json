@@ -14,8 +14,8 @@
     "zuul": "~3.5.0"
   },
   "scripts": {
-    "test": "zuul --phantom -- ./test/*.js",
-    "test-with-sauce": "zuul -- ./test/*.js",
+    "test": "zuul -- ./test/*.js",
+    "test-with-phantom": "zuul --phantom -- ./test/*.js",
     "serve-tests": "zuul --local 7357 -- ./test/*.js"
   }
 }
