@@ -1,4 +1,5 @@
-Object.assign || (Object.assign = require('object-assign'));
+require('core-js/shim');
+
 var React = require('react');
 var ReactDOM = require('react-dom');
 var StickyModalForm = require('../sticky');
@@ -84,35 +85,43 @@ describe('StickyModalForm', function() {
       });
 
       it('can stick to the bottom of the visible portion of a clipped SVG element', function() {
-        var svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
-        svg.setAttribute("width", "100");
-        svg.setAttribute("height", "100");
-        svg.setAttribute("viewBox", "0 0 100 100");
-        
-        var line = document.createElementNS("http://www.w3.org/2000/svg", 'line');
-        line.setAttribute("x1", "-50");
-        line.setAttribute("y1", "50");
-        line.setAttribute("x2", "50");
-        line.setAttribute("y2", "50");
-        line.setAttribute("stroke-width", "10");
-        line.setAttribute("stroke", "5");
+        var crop = document.createElement('div');
+        Object.assign(crop.style,  {
+          height: '100px',
+          overflow: 'hidden',
+          position: 'relative',
+          width: '100px'
+        });
 
-        svg.appendChild(line);
-        root.appendChild(svg);
-        document.body.appendChild(root);
+        var trigger = document.createElement('div');
+        Object.assign(trigger.style, {
+          bottom: '50px',
+          left: '-50px',
+          position: 'absolute',
+          right: '50px',
+          top: '40px'
+        });
 
-        var instance = ReactDOM.render(React.createElement(StickyModalForm, {side: 'bottom'}, 'x'), line);
+        crop.appendChild(trigger);
+        root.appendChild(crop);
+
+        var instance = ReactDOM.render(React.createElement(StickyModalForm, {
+          side: 'bottom'
+        }, content), trigger);
         var instanceNode = ReactDOM.findDOMNode(instance);
-        simulant.fire(line, 'click');
-        var formPointer = instance.refs.pointer
-        
-        assert.equal(formPointer.getBoundingClientRect().top, 150);
-        assert.equal(formPointer.getBoundingClientRect().left, 125);
 
-        
-        ReactDOM.unmountComponentAtNode(line);
-        svg.parentNode.removeChild(svg);
-        svg = null;
+        simulant.fire(trigger, 'click');
+
+        var formPointer = instance.refs.pointer;
+        var formPointerRect = formPointer.getBoundingClientRect();
+
+        assert.equal(formPointerRect.top, 150);
+        assert.equal(formPointerRect.left, 125);
+
+        ReactDOM.unmountComponentAtNode(trigger);
+        crop.parentNode.removeChild(crop);
+        crop = null;
+        trigger = null;
       });
 
       afterEach(function() {

@@ -1,5 +1,5 @@
-Object.assign || (Object.assign = require('object-assign'));
-window.Promise || (window.Promise = require('es6-promise').Promise);
+require('core-js/shim');
+
 var React = require('react');
 var ModalFormDialog = require('../dialog');
 var assert = require('assert');
@@ -31,7 +31,7 @@ describe('ModalFormDialog', function() {
       setTimeout(function() {
         assert.equal(document.getElementById(id), null);
         done();
-      });
+      }, 50);
     });
 
     it('closes on cancel', function(done) {
@@ -41,7 +41,7 @@ describe('ModalFormDialog', function() {
       setTimeout(function() {
         assert.equal(document.getElementById(id), null);
         done();
-      });
+      }, 50);
     });
   });
 });
