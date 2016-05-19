@@ -1,5 +1,5 @@
-Object.assign || (Object.assign = require('object-assign'));
-window.Promise || (window.Promise = require('es6-promise').Promise);
+require('core-js/shim');
+
 var React = require('react');
 var ModalFormDialog = require('../dialog');
 var assert = require('assert');

@@ -1,4 +1,5 @@
-Object.assign || (Object.assign = require('object-assign'));
+require('core-js/shim');
+
 var React = require('react');
 var ReactDOM = require('react-dom');
 var ModalFormBase = require('../base');
