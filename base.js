@@ -28,6 +28,7 @@
     this.reposition = this.reposition.bind(this);
     this.handleGlobalKeyDown = this.handleGlobalKeyDown.bind(this);
     this.handleGlobalNavigation = this.handleGlobalNavigation.bind(this);
+    this.handleAnchorMount = this.handleAnchorMount.bind(this);
     this.state = {
       underlayWidth: 0,
       underlayHeight: 0
@@ -74,10 +75,9 @@
       addEventListener('keydown', this.handleGlobalKeyDown);
       addEventListener('hashchange', this.handleGlobalNavigation);
       addEventListener(ModalFormBase.locationChangeEvent, this.handleGlobalNavigation);
-      this.reposition();
-      if (this._originalScrollPosition !== null) {
-        scrollTo.apply(null, this._originalScrollPosition);
-      }
+      setTimeout(function() {
+        this.reposition();
+      }.bind(this));
     },
 
     componentWillUnmount: function() {
@@ -97,6 +97,13 @@
     handleGlobalNavigation: function() {
       if (!this.props.required && !this.props.persistAcrossLocations) {
         this.props.onCancel.apply(null, arguments);
+      }
+    },
+
+    handleAnchorMount: function() {
+      this.reposition();
+      if (this._originalScrollPosition !== null) {
+        scrollTo.apply(null, this._originalScrollPosition);
       }
     },
 
@@ -140,11 +147,14 @@
 
     renderWithAnchor: function() {
       var looseRenderResult = this.renderLoose.apply(this, arguments);
-      return React.createElement(ModalFormAnchor, null, looseRenderResult);
+      return React.createElement(ModalFormAnchor, {
+        ref: 'anchor',
+        onMount: this.handleAnchorMount
+      }, looseRenderResult);
     },
 
     componentDidUpdate: function() {
-      this.reposition();
+      this.refs.anchor.context.modalFormRoot.updateOnce();
     },
 
     reposition: function() {

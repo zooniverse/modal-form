@@ -40,8 +40,8 @@
   });
 
   StickyModalForm.prototype = Object.assign(Object.create(ModalFormBase.prototype), {
-    componentDidMount: function() {
-      ModalFormBase.prototype.componentDidMount.apply(this, arguments);
+    handleContentMount: function() {
+      ModalFormBase.prototype.handleContentMount.apply(this, arguments);
       // TODO: Figure out a way to add a global load event listener.
       Array.prototype.forEach.call(document.querySelectorAll(MEDIA_SELECTOR), function(media) {
         media.addEventListener('load', this.reposition)
@@ -175,12 +175,12 @@
     },
 
     getUnderlayChildren: function() {
+      var originalChildren = ModalFormBase.prototype.getUnderlayChildren.apply(this, arguments);
       var pointer = React.createElement('div', {
         ref: 'pointer',
         className: ('modal-form-pointer ' + (this.props.className || '')).trim(),
         style: Object.assign({}, POINTER_STYLE, this.props.pointerStyle)
       });
-      var originalChildren = ModalFormBase.prototype.getUnderlayChildren.apply(this, arguments);
       return [].concat(originalChildren, pointer);
     }
   });

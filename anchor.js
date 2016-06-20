@@ -3,40 +3,51 @@
 
   var React;
   var ReactDOM;
+  var ModalFormRoot;
   if (typeof require !== 'undefined') {
     React = require('react');
     ReactDOM = require('react-dom');
+    ModalFormRoot = require('./root');
   } else if (typeof window !== 'undefined') {
     React = window.React;
     ReactDOM = window.ReactDOM;
+    ModalFormRoot = window.ZUIModalFormRoot;
   }
 
   function ModalFormAnchor() {
     React.Component.apply(this, arguments);
+    this.state = {
+      key: Math.random().toString(36).split('.')[1]
+    };
   }
 
+  ModalFormAnchor.contextTypes = {
+    modalFormRoot: ModalFormRoot.shape
+  };
+
+  ModalFormAnchor.defaultProps = {
+    onMount: Function.prototype
+  };
+
   ModalFormAnchor.prototype = Object.assign(Object.create(React.Component.prototype), {
-    componentDidMount: function() {
-      this.root = document.createElement('div');
-      this.root.classList.add('modal-form-anchor-root');
-      document.body.appendChild(this.root);
-      this.renderInstance()
+    unmounting: false,
+
+    componentWillMount: function() {
+      this.context.modalFormRoot.register(this);
+    },
+
+    componentDidMount() {
+      setTimeout(this.props.onMount);
     },
 
     componentWillUnmount: function() {
-      ReactDOM.unmountComponentAtNode(this.root);
-      this.root.parentNode.removeChild(this.root);
-      this.root = null;
-      this.instance = null;
+      this.unmounting = true;
+      this.context.modalFormRoot.updateOnce();
+      this.context.modalFormRoot.unregister(this);
     },
 
     componentDidUpdate: function() {
-      this.renderInstance();
-    },
-
-    renderInstance: function() {
-      var children = this.props.children || React.createElement('noscript');
-      this.instance = ReactDOM.render(children, this.root);
+      this.context.modalFormRoot.updateOnce();
     },
 
     render: function() {
