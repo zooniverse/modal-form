@@ -58,7 +58,7 @@
     reposition: function(props) {
       ModalFormBase.prototype.reposition.apply(this, arguments);
 
-      if (props === undefined || props instanceof Event) {
+      if (props === undefined || props.currentTarget !== undefined) {
         props = this.props;
       }
 
