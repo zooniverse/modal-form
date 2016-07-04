@@ -101,17 +101,17 @@
     },
 
     getUnderlayChildren: function() {
-      var action;
+      var method;
       var onSubmit;
       if (this.props.tag === 'form') {
-        action = 'POST';
+        method = 'POST';
         onSubmit = this.handleFormSubmit.bind(this)
       }
 
       return React.createElement(this.props.tag, {
         ref: 'form',
         className: ('modal-form ' + (this.props.className || '')).trim(),
-        action: action,
+        method: method,
         style: Object.assign({}, FORM_STYLE, this.props.style),
         onSubmit: onSubmit
       }, this.props.children);
