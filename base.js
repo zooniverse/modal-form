@@ -95,7 +95,7 @@
     },
 
     handleGlobalNavigation: function() {
-      if (!this.props.required && !this.props.persistAcrossLocations) {
+      if (!this.props.persistAcrossLocations) {
         this.props.onCancel.apply(null, arguments);
       }
     },
