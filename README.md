@@ -2,6 +2,8 @@
 
 These are React components. They render a form with an screen-sized underlay preventing interaction with the page.
 
+![Build status](https://travis-ci.org/zooniverse/modal-form.svg)
+
 ## Components
 
 ### Base
@@ -71,7 +73,7 @@ class WithTriggered extends React.Component {
       } required onSubmit={this.handleSubmit}>
         <p>No way out until you choose.</p>
         <ul>
-          <li><button type="submit">You must choose me.</li>
+          <li><button type="submit">You must choose me.</button></li>
         </ul>
       </TriggeredModalForm>
     </p>;
@@ -100,7 +102,7 @@ class WithDialog extends React.Component {
       {this.state.dialogIsOpen
         ? <ModalFormDialog>
             <p>The time is {Date.now()}.</p>
-          </TriggeredModalForm>
+          </ModalFormDialog>
         : null}
     </p>;
   }

@@ -14,7 +14,7 @@
     ModalFormBase = window.ZUIModalFormBase;
   }
 
-  var ModalDialog = React.createClass({
+  var ModalDialog = React.createClass({ 
     statics: {
       alert: function(message, props) {
         var container = document.createElement('div');

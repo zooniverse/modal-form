@@ -1,4 +1,5 @@
-Object.assign || (Object.assign = require('object-assign'));
+require('core-js/shim');
+
 var React = require('react');
 var ReactDOM = require('react-dom');
 var StickyModalForm = require('../sticky');
@@ -81,6 +82,46 @@ describe('StickyModalForm', function() {
         var formRect = form.getBoundingClientRect();
         assert.equal(formRect.left, 100);
         assert.equal(formRect.top, 200);
+      });
+
+      it('can stick to the bottom of the visible portion of a clipped SVG element', function() {
+        var crop = document.createElement('div');
+        Object.assign(crop.style,  {
+          height: '100px',
+          overflow: 'hidden',
+          position: 'relative',
+          width: '100px'
+        });
+
+        var trigger = document.createElement('div');
+        Object.assign(trigger.style, {
+          bottom: '50px',
+          left: '-50px',
+          position: 'absolute',
+          right: '50px',
+          top: '40px'
+        });
+
+        crop.appendChild(trigger);
+        root.appendChild(crop);
+
+        var instance = ReactDOM.render(React.createElement(StickyModalForm, {
+          side: 'bottom'
+        }, content), trigger);
+        var instanceNode = ReactDOM.findDOMNode(instance);
+
+        simulant.fire(trigger, 'click');
+
+        var formPointer = instance.refs.pointer;
+        var formPointerRect = formPointer.getBoundingClientRect();
+
+        assert.equal(formPointerRect.top, 150);
+        assert.equal(formPointerRect.left, 125);
+
+        ReactDOM.unmountComponentAtNode(trigger);
+        crop.parentNode.removeChild(crop);
+        crop = null;
+        trigger = null;
       });
 
       afterEach(function() {
