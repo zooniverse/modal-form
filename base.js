@@ -89,8 +89,8 @@
     },
 
     componentDidUpdate: function() {
-      requestAnimationFrame(() => {
-        requestAnimationFrame(this.reposition)
+      requestAnimationFrame(function() {
+        requestAnimationFrame(this.reposition);
       });
     },
 
