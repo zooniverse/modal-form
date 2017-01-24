@@ -89,8 +89,9 @@
     },
 
     componentDidUpdate: function() {
+      var that = this;
       requestAnimationFrame(function() {
-        requestAnimationFrame(this.reposition);
+        requestAnimationFrame(that.reposition);
       });
     },
 
