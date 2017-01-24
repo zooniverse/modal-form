@@ -88,6 +88,12 @@
       removeEventListener(ModalFormBase.locationChangeEvent, this.handleGlobalNavigation);
     },
 
+    componentDidUpdate: function() {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(this.reposition)
+      });
+    },
+
     handleGlobalKeyDown: function (event) {
       if (event.which === ESC_KEY && !this.props.required) {
         this.props.onCancel.apply(null, arguments);
@@ -141,10 +147,6 @@
     renderWithAnchor: function() {
       var looseRenderResult = this.renderLoose.apply(this, arguments);
       return React.createElement(ModalFormAnchor, null, looseRenderResult);
-    },
-
-    componentDidUpdate: function() {
-      this.reposition();
     },
 
     reposition: function() {
