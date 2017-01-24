@@ -8,3 +8,5 @@ browsers:
     version: -1..latest
   - name: iphone
     version: -1..latest
+scripts:
+  - "requestAnimationFrame-polyfill.js"
