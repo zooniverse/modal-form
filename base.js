@@ -89,10 +89,7 @@
     },
 
     componentDidUpdate: function() {
-      var that = this;
-      requestAnimationFrame(function() {
-        requestAnimationFrame(that.reposition);
-      });
+      this.reposition();
     },
 
     handleGlobalKeyDown: function (event) {
