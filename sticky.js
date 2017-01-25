@@ -55,12 +55,8 @@
       }, this);
     },
 
-    reposition: function(props) {
+    reposition: function() {
       ModalFormBase.prototype.reposition.apply(this, arguments);
-
-      if (props === undefined || props.currentTarget !== undefined) {
-        props = this.props;
-      }
 
       var anchor = ReactDOM.findDOMNode(this).parentNode;
       var anchorRect = this.getRectWithMargin(anchor);
@@ -77,7 +73,7 @@
       form.style.left = '';
       form.style.top = '';
       var formRect = this.getRectWithMargin(form);
-      var formPosition = this.getPosition[props.side].call(this, formRect, visibleAnchorRect);
+      var formPosition = this.getPosition[this.props.side].call(this, formRect, visibleAnchorRect);
       form.style.left = pageXOffset + formPosition.left + 'px';
       form.style.top = pageYOffset + formPosition.top + 'px';
 
@@ -85,7 +81,7 @@
       pointer.style.left = '';
       pointer.style.top = '';
       var pointerRect = this.getRectWithMargin(pointer);
-      var pointerPosition = this.getPosition[props.side].call(this, pointerRect, visibleAnchorRect);
+      var pointerPosition = this.getPosition[this.props.side].call(this, pointerRect, visibleAnchorRect);
       pointer.style.left = pageXOffset + pointerPosition.left + 'px';
       pointer.style.top = pageYOffset + pointerPosition.top + 'px';
     },
