@@ -114,8 +114,8 @@
         var top = this.state.scrollY + Math.max(0, vertical - (this.props.top * form.offsetHeight));
         if (left !== this.state.dialogLeft || top !== this.state.dialogTop) {
           this.setState({
-            dialogLeft: left,
-            dialogTop: top
+            dialogLeft: parseInt(left),
+            dialogTop: parseInt(top)
           });
         }
       }

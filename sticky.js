@@ -74,8 +74,8 @@
       form.style.top = '';
       var formRect = this.getRectWithMargin(form);
       var formPosition = this.getPosition[this.props.side].call(this, formRect, visibleAnchorRect);
-      form.style.left = pageXOffset + formPosition.left + 'px';
-      form.style.top = pageYOffset + formPosition.top + 'px';
+      form.style.left = parseInt(pageXOffset + formPosition.left) + 'px';
+      form.style.top = parseInt(pageYOffset + formPosition.top) + 'px';
 
       var pointer = this.refs.pointer;
       pointer.style.left = '';
