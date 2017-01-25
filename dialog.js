@@ -68,8 +68,8 @@
       return {
         scrollX: pageXOffset,
         scrollY: pageYOffset,
-        dialogLeft: 0,
-        dialogTop: 0
+        dialogLeft: -1000,
+        dialogTop: -1000
       };
     },
 
