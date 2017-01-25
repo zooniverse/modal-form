@@ -66,6 +66,7 @@
         // Mounting a modal with `autoFocus` content scrolls to the top before it repositions.
         this._originalScrollPosition = [pageXOffset, pageYOffset];
       }
+      this.reposition = this.reposition.bind(this);
     },
 
     componentDidMount: function() {
@@ -89,7 +90,10 @@
     },
 
     componentDidUpdate: function() {
-      this.reposition();
+      var reposition = this.reposition;
+      requestAnimationFrame(function(){
+        requestAnimationFrame(reposition);
+      });
     },
 
     handleGlobalKeyDown: function (event) {
@@ -148,19 +152,21 @@
     },
 
     reposition: function() {
-      var formRect = this.refs.form.getBoundingClientRect();
-      var formStyle = getComputedStyle(this.refs.form);
-      var formRight = pageXOffset + formRect.right + parseFloat(formStyle.marginRight);
-      var formBottom = pageYOffset + formRect.bottom + parseFloat(formStyle.marginBottom);
-      var totalWidth = Math.max(document.documentElement.offsetWidth, formRight); // Skip `innerWidth` to avoid counting scrollbar.
-      var totalHeight = Math.max(document.documentElement.offsetHeight, innerHeight, formBottom);
-      if (totalWidth !== this.state.underlayWidth || totalHeight !== this.state.underlayHeight) {
-        this.setState({
-          underlayWidth: totalWidth,
-          underlayHeight: totalHeight
-        });
+      if (this.refs && this.refs.form) {
+        var formRect = this.refs.form.getBoundingClientRect();
+        var formStyle = getComputedStyle(this.refs.form);
+        var formRight = pageXOffset + formRect.right + parseFloat(formStyle.marginRight);
+        var formBottom = pageYOffset + formRect.bottom + parseFloat(formStyle.marginBottom);
+        var totalWidth = Math.max(document.documentElement.offsetWidth, formRight); // Skip `innerWidth` to avoid counting scrollbar.
+        var totalHeight = Math.max(document.documentElement.offsetHeight, innerHeight, formBottom);
+        if (totalWidth !== this.state.underlayWidth || totalHeight !== this.state.underlayHeight) {
+          this.setState({
+            underlayWidth: totalWidth,
+            underlayHeight: totalHeight
+          });
+        }
+        this.props.onReposition();
       }
-      this.props.onReposition();
     },
 
     handleFormSubmit: function(event) {
