@@ -87,8 +87,8 @@
     },
 
     checkBoundaryWidth: function(formLeft, viewWidth, formWidth){
-      let repositionedLeft = formLeft;
-      let formRight = formLeft + formWidth;
+      var repositionedLeft = formLeft;
+      var formRight = formLeft + formWidth;
       if (formRight > viewWidth) {
         repositionedLeft = formLeft - (formRight - viewWidth);
       }
