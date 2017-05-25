@@ -74,7 +74,7 @@
       form.style.top = '';
       var formRect = this.getRectWithMargin(form);
       var formPosition = this.getPosition[this.props.side].call(this, formRect, visibleAnchorRect);
-      form.style.left = this.checkBoundaryWidth(formPosition.left, clipViewport.width, formRect.width);
+      form.style.left = this.checkBoundaryWidth(formPosition.left, formRect.width);
       form.style.top = parseInt(pageYOffset + formPosition.top) + 'px';
 
       var pointer = this.refs.pointer;
@@ -86,11 +86,14 @@
       pointer.style.top = pageYOffset + pointerPosition.top + 'px';
     },
 
-    checkBoundaryWidth: function(formLeft, viewWidth, formWidth){
+    checkBoundaryWidth: function(formLeft, formWidth){
+      var viewWidth = window.innerWidth;
       var repositionedLeft = formLeft;
       var formRight = formLeft + formWidth;
       if (formRight > viewWidth) {
         repositionedLeft = formLeft - (formRight - viewWidth);
+      } else if (formLeft < 0) {
+        repositionedLeft = 0;
       }
       return parseInt(pageXOffset + repositionedLeft) + 'px';
     },
