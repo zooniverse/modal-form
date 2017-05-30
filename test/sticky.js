@@ -19,6 +19,12 @@ var KNOWN_BOX_SIZE = {
   width: '100px'
 };
 
+var WIDE_BOX = {
+  display: 'block',
+  height: '100px',
+  width: '300px'
+}
+
 describe('StickyModalForm', function() {
   it('exports', function() {
     assert.equal(typeof StickyModalForm, 'function');
@@ -134,5 +140,52 @@ describe('StickyModalForm', function() {
       root.parentNode.removeChild(root);
       root = null;
     });
+  });
+
+  describe('wide box instance', function() {
+    var root;
+
+    beforeEach(function() {
+      root = document.createElement('div');
+      Object.assign(root.style, ROOT_BOX_POSITION, WIDE_BOX);
+      document.body.appendChild(root);
+    });
+
+    describe('borders', function() {
+      var content;
+
+      beforeEach(function() {
+        scrollTo(0, 0);
+
+        content = React.createElement('div', {
+          style: WIDE_BOX
+        });
+      });
+
+      it('should not overflow to the right', function() {
+        var instance = ReactDOM.render(React.createElement(StickyModalForm, {
+          side: 'right'
+        }, content), root);
+        var form = instance.refs.form;
+        var formRect = form.getBoundingClientRect();
+        assert.equal(formRect.right, 400);
+        assert.equal(formRect.left, 100);
+      });
+
+      it('should not overflow to the left', function() {
+        var instance = ReactDOM.render(React.createElement(StickyModalForm, {
+          side: 'left'
+        }, content), root);
+        var form = instance.refs.form;
+        var formRect = form.getBoundingClientRect();
+        assert.equal(formRect.right, 300);
+        assert.equal(formRect.left, 0);
+      });
+
+      afterEach(function() {
+        content = null;
+      });
+    });
+
   });
 });
