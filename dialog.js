@@ -14,7 +14,7 @@
     ModalFormBase = window.ZUIModalFormBase;
   }
 
-  var ModalDialog = React.createClass({ 
+  var ModalDialog = React.createClass({
     statics: {
       alert: function(message, props) {
         var container = document.createElement('div');
@@ -66,8 +66,6 @@
 
     getInitialState: function() {
       return {
-        scrollX: pageXOffset,
-        scrollY: pageYOffset,
         dialogLeft: -1000,
         dialogTop: -1000
       };
@@ -110,8 +108,8 @@
       if (form !== undefined) {
         var horizontal = this.props.left * innerWidth;
         var vertical = this.props.top * innerHeight;
-        var left = this.state.scrollX + Math.max(0, horizontal - (this.props.left * form.offsetWidth));
-        var top = this.state.scrollY + Math.max(0, vertical - (this.props.top * form.offsetHeight));
+        var left = pageXOffset + Math.max(0, horizontal - (this.props.left * form.offsetWidth));
+        var top = pageYOffset + Math.max(0, vertical - (this.props.top * form.offsetHeight));
         if (left !== this.state.dialogLeft || top !== this.state.dialogTop) {
           this.setState({
             dialogLeft: parseInt(left),
