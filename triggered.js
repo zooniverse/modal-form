@@ -3,26 +3,31 @@
 
   var React;
   var ReactDOM;
+  var PropTypes;
+  var createReactClass;
   var StickyModalForm;
   if (typeof require !== 'undefined') {
     React = require('react');
     ReactDOM = require('react-dom');
+    PropTypes = require('prop-types');
+    createReactClass = require('create-react-class');
     StickyModalForm = require('./sticky');
   } else if (typeof window !== 'undefined') {
     React = window.React;
     ReactDOM = window.ReactDOM;
+    PropTypes = window.PropTypes;
     StickyModalForm = window.ZUIStickyModalForm;
   }
 
-  var TriggeredModalForm = React.createClass({
+  var TriggeredModalForm = createReactClass({
     propTypes: Object.assign({}, StickyModalForm.propTypes, {
-      triggerTag: React.PropTypes.string,
-      trigger: React.PropTypes.oneOfType([
-        React.PropTypes.element,
-        React.PropTypes.string
+      triggerTag: PropTypes.string,
+      trigger: PropTypes.oneOfType([
+        PropTypes.element,
+        PropTypes.string
       ]),
-      triggerProps: React.PropTypes.object,
-      defaultOpen: React.PropTypes.bool
+      triggerProps: PropTypes.object,
+      defaultOpen: PropTypes.bool
     }),
 
     getDefaultProps: function() {

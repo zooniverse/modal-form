@@ -7,8 +7,8 @@
     "custom-event": "~1.0.0",
     "mocha": "~2.3.2",
     "phantomjs": "~1.9.18",
-    "react": "~0.14.1",
-    "react-dom": "~0.14.3",
+    "react": "^15.6.2",
+    "react-dom": "^15.6.2",
     "simulant": "~0.1.5",
     "sinon": "~1.16.1",
     "zuul": "~3.5.0"
@@ -16,5 +16,9 @@
   "scripts": {
     "test": "zuul --phantom -- ./test/*.js",
     "serve-tests": "zuul --local 7357 -- ./test/*.js"
+  },
+  "dependencies": {
+    "create-react-class": "^15.6.2",
+    "prop-types": "^15.6.0"
   }
 }

@@ -3,11 +3,14 @@
 
   var React;
   var ModalFormAnchor;
+  var PropTypes;
   if (typeof require !== 'undefined') {
     React = require('react');
+    PropTypes = require('prop-types');
     ModalFormAnchor = require('./anchor');
   } else if (typeof window !== 'undefined') {
     React = window.React;
+    PropTypes = window.PropTypes;
     ModalFormAnchor = window.ZUIModalFormAnchor;
   }
 
@@ -37,14 +40,14 @@
   ModalFormBase.locationChangeEvent = 'locationchange';
 
   ModalFormBase.propTypes = {
-    tag: React.PropTypes.node,
-    required: React.PropTypes.bool,
-    underlayStyle: React.PropTypes.object,
-    persistAcrossLocations: React.PropTypes.bool,
-    loose: React.PropTypes.bool,
-    onReposition: React.PropTypes.func,
-    onSubmit: React.PropTypes.func,
-    onCancel: React.PropTypes.func
+    tag: PropTypes.node,
+    required: PropTypes.bool,
+    underlayStyle: PropTypes.object,
+    persistAcrossLocations: PropTypes.bool,
+    loose: PropTypes.bool,
+    onReposition: PropTypes.func,
+    onSubmit: PropTypes.func,
+    onCancel: PropTypes.func
   };
 
   ModalFormBase.defaultProps = {
