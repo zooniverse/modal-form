@@ -9,11 +9,13 @@
   if (typeof require !== 'undefined') {
     React = require('react');
     ReactDOM = require('react-dom');
+    PropTypes = require('prop-types');
     createReactClass = require('create-react-class');
     ModalFormBase = require('./base');
   } else if (typeof window !== 'undefined') {
     React = window.React;
     ReactDOM = window.ReactDOM;
+    PropTypes = window.PropTypes;
     ModalFormBase = window.ZUIModalFormBase;
   }
 
@@ -54,9 +56,9 @@
     },
 
     propTypes: Object.assign({}, ModalFormBase.propTypes, {
-      closeButton: React.PropTypes.bool,
-      left: React.PropTypes.number,
-      top: React.PropTypes.number
+      closeButton: PropTypes.bool,
+      left: PropTypes.number,
+      top: PropTypes.number
     }),
 
     getDefaultProps: function() {
