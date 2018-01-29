@@ -3,10 +3,13 @@
 
   var React;
   var ReactDOM;
+  var PropTypes;
+  var createReactClass;
   var ModalFormBase;
   if (typeof require !== 'undefined') {
     React = require('react');
     ReactDOM = require('react-dom');
+    createReactClass = require('create-react-class');
     ModalFormBase = require('./base');
   } else if (typeof window !== 'undefined') {
     React = window.React;
@@ -14,7 +17,7 @@
     ModalFormBase = window.ZUIModalFormBase;
   }
 
-  var ModalDialog = React.createClass({ 
+  var ModalDialog = createReactClass({ 
     statics: {
       alert: function(message, props) {
         var container = document.createElement('div');

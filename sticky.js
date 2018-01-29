@@ -3,14 +3,17 @@
 
   var React;
   var ReactDOM;
+  var PropTypes;
   var ModalFormBase;
   if (typeof require !== 'undefined') {
     React = require('react');
     ReactDOM = require('react-dom');
+    PropTypes = require('prop-types');
     ModalFormBase = require('./base');
   } else if (typeof window !== 'undefined') {
     React = window.React;
     ReactDOM = window.ReactDOM;
+    PropTypes = window.PropTypes;
     ModalFormBase = window.ZUIModalFormBase;
   }
 
@@ -25,13 +28,13 @@
   }
 
   StickyModalForm.propTypes = Object.assign({}, ModalFormBase.propTypes, {
-    side: React.PropTypes.oneOf([
+    side: PropTypes.oneOf([
       'left',
       'right',
       'top',
       'bottom'
     ]),
-    pointerStyle: React.PropTypes.object
+    pointerStyle: PropTypes.object
   });
 
   StickyModalForm.defaultProps = Object.assign({}, ModalFormBase.defaultProps, {
