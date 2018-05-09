@@ -119,8 +119,9 @@
         onSubmit = this.handleFormSubmit.bind(this)
       }
 
+      var that = this
       return React.createElement(this.props.tag, {
-        ref: 'form',
+        ref: function(form) {that.form = form;},
         className: ('modal-form ' + (this.props.className || '')).trim(),
         method: method,
         style: Object.assign({}, FORM_STYLE, this.props.style),
@@ -141,8 +142,9 @@
         width: this.state.underlayWidth + 'px',
         height: this.state.underlayHeight + 'px'
       };
+      var that = this;
       return React.createElement.apply(React, ['div', {
-        ref: 'underlay',
+        ref: function(underlay) {that.underlay = underlay;},
         className: ('modal-form-underlay ' + (this.props.className || '')).trim(),
         style: Object.assign({}, UNDERLAY_STYLE, underlaySize, this.props.underlayStyle),
         onClick: this.handleUnderlayClick.bind(this)
@@ -155,9 +157,9 @@
     },
 
     reposition: function() {
-      if (this.refs && this.refs.form) {
-        var formRect = this.refs.form.getBoundingClientRect();
-        var formStyle = getComputedStyle(this.refs.form);
+      if (this.form) {
+        var formRect = this.form.getBoundingClientRect();
+        var formStyle = getComputedStyle(this.form);
         var formRight = pageXOffset + formRect.right + parseFloat(formStyle.marginRight);
         var formBottom = pageYOffset + formRect.bottom + parseFloat(formStyle.marginBottom);
         var totalWidth = Math.max(document.documentElement.offsetWidth, formRight); // Skip `innerWidth` to avoid counting scrollbar.
@@ -178,7 +180,7 @@
     },
 
     handleUnderlayClick: function(event) {
-      if (!this.props.required && event.target === this.refs.underlay) {
+      if (!this.props.required && event.target === this.underlay) {
         this.props.onCancel.apply(null, arguments);
       }
     }

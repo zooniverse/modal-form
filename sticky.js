@@ -72,7 +72,7 @@
       var clipViewport = anchorClipParent.getBoundingClientRect();
       var visibleAnchorRect = this.anchorInsideViewport(anchorRect, clipViewport);
 
-      var form = this.refs.form;
+      var form = this.form;
       form.style.left = '';
       form.style.top = '';
       var formRect = this.getRectWithMargin(form);
@@ -80,7 +80,7 @@
       form.style.left = this.checkBoundaryWidth(formPosition.left, formRect.width);
       form.style.top = parseInt(pageYOffset + formPosition.top) + 'px';
 
-      var pointer = this.refs.pointer;
+      var pointer = this.pointer;
       pointer.style.left = '';
       pointer.style.top = '';
       var pointerRect = this.getRectWithMargin(pointer);
@@ -186,8 +186,9 @@
     },
 
     getUnderlayChildren: function() {
+      var that = this;
       var pointer = React.createElement('div', {
-        ref: 'pointer',
+        ref: function(pointer) {that.pointer = pointer;},
         className: ('modal-form-pointer ' + (this.props.className || '')).trim(),
         style: Object.assign({}, POINTER_STYLE, this.props.pointerStyle)
       });

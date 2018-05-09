@@ -84,8 +84,9 @@
         top: this.state.dialogTop
       };
 
+      var that = this;
       var modalProps = Object.assign({
-        ref: 'modal',
+        ref: function(modal) {that.modal = modal;},
         role: 'dialog'
       }, this.props, {
         className: ('modal-dialog ' + (this.props.className || '')).trim(),
@@ -111,7 +112,7 @@
     },
 
     reposition: function() {
-      var form = this.refs.modal && this.refs.modal.refs.form;
+      var form = this.modal && this.modal.form;
       if (form !== undefined) {
         var horizontal = this.props.left * innerWidth;
         var vertical = this.props.top * innerHeight;
