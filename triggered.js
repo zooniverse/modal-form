@@ -64,9 +64,10 @@
 
     render: function() {
       var modal = null;
+      var that = this;
       if (this.state.open) {
         var modalProps = Object.assign({}, this.props, {
-          ref: 'modal',
+          ref: function(modal) {that.modal = modal;},
           onSubmit: this.handleSubmit,
           onCancel: this.handleCancel
         });

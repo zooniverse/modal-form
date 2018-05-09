@@ -34,7 +34,7 @@ describe('ModalFormBase', function() {
     });
 
     it('calls onSubmit on submit', function() {
-      var form = instance.refs.form;
+      var form = instance.form;
       simulant.fire(form, 'submit');
       assert(submitHandler.calledOnce);
       submitHandler.reset();
@@ -49,7 +49,7 @@ describe('ModalFormBase', function() {
     });
 
     it('calls onCancel after clicking the underlay', function() {
-      var underlay = instance.refs.underlay;
+      var underlay = instance.underlay;
       simulant.fire(underlay, 'click');
       assert(cancelHandler.calledOnce);
       cancelHandler.reset();
