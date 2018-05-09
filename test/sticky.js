@@ -54,7 +54,7 @@ describe('StickyModalForm', function() {
         var instance = ReactDOM.render(React.createElement(StickyModalForm, {
           side: 'left'
         }, content), root);
-        var form = instance.refs.form;
+        var form = instance.form;
         var formRect = form.getBoundingClientRect();
         assert.equal(formRect.left, 0);
         assert.equal(formRect.top, 100);
@@ -64,7 +64,7 @@ describe('StickyModalForm', function() {
         var instance = ReactDOM.render(React.createElement(StickyModalForm, {
           side: 'right'
         }, content), root);
-        var form = instance.refs.form;
+        var form = instance.form;
         var formRect = form.getBoundingClientRect();
         assert.equal(formRect.left, 200);
         assert.equal(formRect.top, 100);
@@ -74,7 +74,7 @@ describe('StickyModalForm', function() {
         var instance = ReactDOM.render(React.createElement(StickyModalForm, {
           side: 'top'
         }, content), root);
-        var form = instance.refs.form;
+        var form = instance.form;
         var formRect = form.getBoundingClientRect();
         assert.equal(formRect.left, 100);
         assert.equal(formRect.top, 0);
@@ -84,7 +84,7 @@ describe('StickyModalForm', function() {
         var instance = ReactDOM.render(React.createElement(StickyModalForm, {
           side: 'bottom'
         }, content), root);
-        var form = instance.refs.form;
+        var form = instance.form;
         var formRect = form.getBoundingClientRect();
         assert.equal(formRect.left, 100);
         assert.equal(formRect.top, 200);
@@ -118,7 +118,7 @@ describe('StickyModalForm', function() {
 
         simulant.fire(trigger, 'click');
 
-        var formPointer = instance.refs.pointer;
+        var formPointer = instance.pointer;
         var formPointerRect = formPointer.getBoundingClientRect();
 
         assert.equal(formPointerRect.top, 150);
@@ -166,7 +166,7 @@ describe('StickyModalForm', function() {
         var instance = ReactDOM.render(React.createElement(StickyModalForm, {
           side: 'right'
         }, content), root);
-        var form = instance.refs.form;
+        var form = instance.form;
         var formRect = form.getBoundingClientRect();
         assert.equal(formRect.right, 400);
         assert.equal(formRect.left, 100);
@@ -176,7 +176,7 @@ describe('StickyModalForm', function() {
         var instance = ReactDOM.render(React.createElement(StickyModalForm, {
           side: 'left'
         }, content), root);
-        var form = instance.refs.form;
+        var form = instance.form;
         var formRect = form.getBoundingClientRect();
         assert.equal(formRect.right, 300);
         assert.equal(formRect.left, 0);

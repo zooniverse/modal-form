@@ -47,12 +47,12 @@ describe('TriggeredModalForm', function() {
       });
 
       it('unmounts its children on submit', function() {
-        simulant.fire(instance.refs.modal.refs.form, 'submit');
+        simulant.fire(instance.modal.form, 'submit');
         assert.ok(!document.getElementById(id));
       });
 
       it('unmounts its children on cancel', function() {
-        simulant.fire(instance.refs.modal.refs.underlay, 'click');
+        simulant.fire(instance.modal.underlay, 'click');
         assert.ok(!document.getElementById(id));
       });
     });
