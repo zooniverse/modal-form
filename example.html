@@ -55,6 +55,8 @@
   <body>
     <script src="./node_modules/react/dist/react.js"></script>
     <script src="./node_modules/react-dom/dist/react-dom.js"></script>
+    <script src="./node_modules/prop-types/prop-types.js"></script>
+    <script src="./node_modules/create-react-class/create-react-class.js"></script>
     <script src="./node_modules/babel-core/browser-polyfill.js"></script>
     <script src="./node_modules/babel-core/browser.js"></script>
     <script src="./anchor.js"></script>
@@ -68,7 +70,7 @@
         return <p>·<br />·<br />·<br />·<br />·<br />·<br />·<br />·<br />·<br />·<br /></p>;
       }
 
-      const NormalDemo = React.createClass({
+      const NormalDemo = createReactClass({
         getInitialState() {
           return {
             side: undefined
