@@ -1,5 +1,12 @@
 # Change Log
 
+## [v2.5.3](https://github.com/zooniverse/modal-form/tree/v2.5.3) (2018-05-09)
+[Full Changelog](https://github.com/zooniverse/modal-form/compare/v2.5.2...v2.5.3)
+
+**Merged pull requests:**
+
+- Fix the example page [\#37](https://github.com/zooniverse/modal-form/pull/37) ([eatyourgreens](https://github.com/eatyourgreens))
+
 ## [v2.5.2](https://github.com/zooniverse/modal-form/tree/v2.5.2) (2018-05-09)
 [Full Changelog](https://github.com/zooniverse/modal-form/compare/v2.5.1...v2.5.2)
 
