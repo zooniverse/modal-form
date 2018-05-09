@@ -16,6 +16,7 @@
     React = window.React;
     ReactDOM = window.ReactDOM;
     PropTypes = window.PropTypes;
+    createReactClass = window.createReactClass;
     ModalFormBase = window.ZUIModalFormBase;
   }
 
