@@ -16,33 +16,26 @@
   }
 
   ModalFormAnchor.prototype = Object.assign(Object.create(React.Component.prototype), {
-    componentDidMount: function() {
+    componentWillMount: function() {
       this.root = document.createElement('div');
       this.root.classList.add('modal-form-anchor-root');
+    },
+
+    componentDidMount: function() {
       document.body.appendChild(this.root);
-      this.renderInstance()
     },
 
     componentWillUnmount: function() {
-      ReactDOM.unmountComponentAtNode(this.root);
       this.root.parentNode.removeChild(this.root);
       this.root = null;
       this.instance = null;
     },
 
-    componentDidUpdate: function() {
-      this.renderInstance();
-    },
-
-    renderInstance: function() {
-      var children = this.props.children || React.createElement('noscript');
-      this.instance = ReactDOM.render(children, this.root);
-    },
-
     render: function() {
+      this.instance = ReactDOM.createPortal(this.props.children, this.root);
       return React.createElement('noscript', {
         className: 'modal-form-anchor'
-      });
+      }, this.instance);
     }
   });
 
