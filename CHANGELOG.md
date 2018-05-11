@@ -1,5 +1,12 @@
 # Change Log
 
+## [v2.6.0](https://github.com/zooniverse/modal-form/tree/v2.6.0) (2018-05-11)
+[Full Changelog](https://github.com/zooniverse/modal-form/compare/v2.5.3...v2.6.0)
+
+**Merged pull requests:**
+
+- Upgrade to React 16 [\#35](https://github.com/zooniverse/modal-form/pull/35) ([eatyourgreens](https://github.com/eatyourgreens))
+
 ## [v2.5.3](https://github.com/zooniverse/modal-form/tree/v2.5.3) (2018-05-09)
 [Full Changelog](https://github.com/zooniverse/modal-form/compare/v2.5.2...v2.5.3)
 
