@@ -106,7 +106,8 @@
       }
     },
 
-    handleCancel: function() {
+    handleCancel: function(e) {
+      e.stopPropagation();
       this.close();
       if (this.props.onCancel) {
         this.props.onCancel.apply(null, arguments);

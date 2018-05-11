@@ -56,12 +56,6 @@ describe('ModalFormAnchor', function() {
           var contentDiv = document.getElementById(id);
           assert.equal(descendants.indexOf(contentDiv), -1);
         });
-
-        it('updates in response to change', function() {
-          var renderInstance = sinon.spy(instance, 'renderInstance');
-          instance.forceUpdate();
-          assert(renderInstance.calledOnce);
-        });
       });
 
       afterEach(function() {
