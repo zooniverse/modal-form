@@ -11,7 +11,7 @@
     "react-dom": "^16.2",
     "simulant": "~0.1.5",
     "sinon": "~1.16.1",
-    "zuul": "~3.5.0"
+    "zuul": "^3.12.0"
   },
   "scripts": {
     "test": "zuul --phantom -- ./test/*.js",
