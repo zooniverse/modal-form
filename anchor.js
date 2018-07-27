@@ -19,9 +19,6 @@
     componentWillMount: function() {
       this.root = document.createElement('div');
       this.root.classList.add('modal-form-anchor-root');
-    },
-
-    componentDidMount: function() {
       document.body.appendChild(this.root);
     },
 
