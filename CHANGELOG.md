@@ -1,5 +1,19 @@
 # Change Log
 
+## [v2.6.1](https://github.com/zooniverse/modal-form/tree/v2.6.1) (2018-07-27)
+[Full Changelog](https://github.com/zooniverse/modal-form/compare/v2.6.1-0...v2.6.1)
+
+**Merged pull requests:**
+
+- Add anchored forms to DOM before rendering [\#39](https://github.com/zooniverse/modal-form/pull/39) ([eatyourgreens](https://github.com/eatyourgreens))
+
+## [v2.6.1-0](https://github.com/zooniverse/modal-form/tree/v2.6.1-0) (2018-07-27)
+[Full Changelog](https://github.com/zooniverse/modal-form/compare/v2.6.0...v2.6.1-0)
+
+**Closed issues:**
+
+- SyntaxError: Unexpected token: punc [\#27](https://github.com/zooniverse/modal-form/issues/27)
+
 ## [v2.6.0](https://github.com/zooniverse/modal-form/tree/v2.6.0) (2018-05-11)
 [Full Changelog](https://github.com/zooniverse/modal-form/compare/v2.5.3...v2.6.0)
 
