@@ -39,7 +39,7 @@ describe('ModalFormAnchor', function() {
       });
 
       it('drops an anchor', function() {
-        assert.equal(ReactDOM.findDOMNode(instance).tagName, 'NOSCRIPT');
+        assert.equal(ReactDOM.findDOMNode(instance).tagName, 'SPAN');
       });
 
       it('renders its root in the body', function() {

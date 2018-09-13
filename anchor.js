@@ -30,7 +30,7 @@
 
     render: function() {
       this.instance = ReactDOM.createPortal(this.props.children, this.root);
-      return React.createElement('noscript', {
+      return React.createElement('span', {
         className: 'modal-form-anchor'
       }, this.instance);
     }
