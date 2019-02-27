@@ -1,5 +1,14 @@
 # Change Log
 
+## [v2.8.0](https://github.com/zooniverse/modal-form/tree/v2.8.0) (2019-02-27)
+[Full Changelog](https://github.com/zooniverse/modal-form/compare/v2.7.0...v2.8.0)
+
+**Merged pull requests:**
+
+- \[Security\] Bump stringstream from 0.0.5 to 0.0.6 [\#44](https://github.com/zooniverse/modal-form/pull/44) ([dependabot[bot]](https://github.com/apps/dependabot))
+- \[Security\] Bump extend from 3.0.1 to 3.0.2 [\#42](https://github.com/zooniverse/modal-form/pull/42) ([dependabot[bot]](https://github.com/apps/dependabot))
+- \[Security\] Bump adm-zip from 0.4.7 to 0.4.13 [\#41](https://github.com/zooniverse/modal-form/pull/41) ([dependabot[bot]](https://github.com/apps/dependabot))
+
 ## [v2.7.0](https://github.com/zooniverse/modal-form/tree/v2.7.0) (2018-09-13)
 [Full Changelog](https://github.com/zooniverse/modal-form/compare/v2.6.1...v2.7.0)
 
