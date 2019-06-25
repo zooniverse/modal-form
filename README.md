@@ -1,4 +1,4 @@
-# ModalForm
+# ModalForm (DEPRECATED)
 
 These are React components. They render a form with an screen-sized underlay preventing interaction with the page.
 
