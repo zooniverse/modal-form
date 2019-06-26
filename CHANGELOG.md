@@ -1,13 +1,24 @@
 # Change Log
 
+## [v2.9.0](https://github.com/zooniverse/modal-form/tree/v2.9.0) (2019-06-26)
+[Full Changelog](https://github.com/zooniverse/modal-form/compare/v2.8.0...v2.9.0)
+
+**Closed issues:**
+
+- Account for SVG viewport [\#17](https://github.com/zooniverse/modal-form/issues/17)
+
+**Merged pull requests:**
+
+- Prepare package for deprecation [\#46](https://github.com/zooniverse/modal-form/pull/46) ([eatyourgreens](https://github.com/eatyourgreens))
+
 ## [v2.8.0](https://github.com/zooniverse/modal-form/tree/v2.8.0) (2019-02-27)
 [Full Changelog](https://github.com/zooniverse/modal-form/compare/v2.7.0...v2.8.0)
 
 **Merged pull requests:**
 
-- \[Security\] Bump stringstream from 0.0.5 to 0.0.6 [\#44](https://github.com/zooniverse/modal-form/pull/44) ([dependabot[bot]](https://github.com/apps/dependabot))
-- \[Security\] Bump extend from 3.0.1 to 3.0.2 [\#42](https://github.com/zooniverse/modal-form/pull/42) ([dependabot[bot]](https://github.com/apps/dependabot))
-- \[Security\] Bump adm-zip from 0.4.7 to 0.4.13 [\#41](https://github.com/zooniverse/modal-form/pull/41) ([dependabot[bot]](https://github.com/apps/dependabot))
+- \[Security\] Bump stringstream from 0.0.5 to 0.0.6 [\#44](https://github.com/zooniverse/modal-form/pull/44) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- \[Security\] Bump extend from 3.0.1 to 3.0.2 [\#42](https://github.com/zooniverse/modal-form/pull/42) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- \[Security\] Bump adm-zip from 0.4.7 to 0.4.13 [\#41](https://github.com/zooniverse/modal-form/pull/41) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 
 ## [v2.7.0](https://github.com/zooniverse/modal-form/tree/v2.7.0) (2018-09-13)
 [Full Changelog](https://github.com/zooniverse/modal-form/compare/v2.6.1...v2.7.0)
