@@ -1,5 +1,12 @@
 # Change Log
 
+## [v2.9.1](https://github.com/zooniverse/modal-form/tree/v2.9.1) (2020-03-30)
+[Full Changelog](https://github.com/zooniverse/modal-form/compare/v2.9.0...v2.9.1)
+
+**Merged pull requests:**
+
+- Remove babel-core, react and react-dom [\#48](https://github.com/zooniverse/modal-form/pull/48) ([eatyourgreens](https://github.com/eatyourgreens))
+
 ## [v2.9.0](https://github.com/zooniverse/modal-form/tree/v2.9.0) (2019-06-26)
 [Full Changelog](https://github.com/zooniverse/modal-form/compare/v2.8.0...v2.9.0)
 
