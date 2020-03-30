@@ -1,11 +1,7 @@
 {
   "name": "modal-form",
   "version": "2.9.0",
-  "devDependencies": {
-    "babel-core": "~5.8.38",
-    "react": "^16.5.0",
-    "react-dom": "^16.5.0"
-  },
+  "devDependencies": {},
   "peerDependencies": {
     "react": "^16.2.0",
     "react-dom": "^16.2.0"
