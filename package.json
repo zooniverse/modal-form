@@ -1,6 +1,6 @@
 {
   "name": "modal-form",
-  "version": "2.9.0",
+  "version": "2.9.1",
   "devDependencies": {},
   "peerDependencies": {
     "react": "^16.2.0",
