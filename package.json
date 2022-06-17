@@ -1,10 +1,10 @@
 {
   "name": "modal-form",
-  "version": "2.9.1",
+  "version": "2.10.0",
   "devDependencies": {},
   "peerDependencies": {
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0"
+    "react": "17.x",
+    "react-dom": "^17.x"
   },
   "scripts": {},
   "dependencies": {
